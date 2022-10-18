@@ -46,6 +46,13 @@ d3.queue()
   .defer(d3.csv, "./dataset.csv", function(d) {data.set(d.ID, {"GEO" : d.GEO, "inf" : +d.hrst_2020});})
   .await(ready);
 
+function scale_size(value){
+  var MAX_VAL = 70; 
+  var MIN_VAL = 0; 
+  var MAX_SIZE = 50;
+
+  return (value*MAX_SIZE)/(MAX_VAL - MIN_VAL);
+}
 
 function ready(error, topo) {
 
@@ -141,7 +148,6 @@ function ready(error, topo) {
       }*/
 
       if (SHOW_HUBS){
-        let side;
         svg.selectAll("rect")
         .data(topo.features)
         .enter()
@@ -149,16 +155,41 @@ function ready(error, topo) {
             .attr("transform", function(d) {
               if(data.get(d.id)){ // show just the countries in the data base
                 if (!isNaN(data.get(d.id)["inf"])){
-                  side = data.get(d.id)["inf"];
                   let coords = d3.geoPath().projection(projection).centroid(d.geometry);
                   return `translate(${coords[0]}, ${coords[1]})`
                 }
               }
             })
-            .attr("x", -(side/2))
-            .attr("y", -(side/2))
-            .attr('width', side)
-            .attr('height', side)
+            .attr("x", function(d){
+              if(data.get(d.id)){
+                if (!isNaN(data.get(d.id)["inf"])){
+                  let side = data.get(d.id)["inf"];
+                  return -(scale_size(side)/2);
+                }
+              }
+            })
+            .attr("y", function(d){
+              if(data.get(d.id)){
+                if (!isNaN(data.get(d.id)["inf"])){
+                  let side = data.get(d.id)["inf"];
+                  return -(scale_size(side)/2);
+                }
+              }
+            })
+            .attr('width', function(d){
+              if(data.get(d.id)){
+                if (!isNaN(data.get(d.id)["inf"])){
+                  return scale_size(data.get(d.id)["inf"]);
+                }
+              }
+            })
+            .attr('height', function(d){
+              if(data.get(d.id)){
+                if (!isNaN(data.get(d.id)["inf"])){
+                  return scale_size(data.get(d.id)["inf"]);
+                }
+              }
+            })
             .attr('stroke', 'red')
             .attr('fill', 'white')
             .style("opacity", .4)
