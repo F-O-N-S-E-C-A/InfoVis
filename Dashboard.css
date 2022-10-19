@@ -18,8 +18,7 @@ main,
 header,
 footer {
   margin: 0 auto;
-  width: 90%;
-  padding: 10px;
+  width: 100%;
 }
 
 header,
@@ -63,12 +62,13 @@ nav {
 }
 
 main {
-  height: 80%;
+  height: 95%;
   background: transparent;
 }
 
 hgroup h2 {
   margin-bottom: 0;
+  align: center;
 }
 
 hgroup ul {
@@ -91,11 +91,9 @@ article {
   flex: 1;
   text-align: center;
   background: #fff;
-  padding: 20px;
   border: 1px solid #bbb;
   border-radius: 5px;
   box-shadow: rgba(30, 41, 59, 0.04) 0 2px 4px 0;
-  margin-bottom: 35px;
 }
 
 dt {
