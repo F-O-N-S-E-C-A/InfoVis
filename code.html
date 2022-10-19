@@ -8,7 +8,7 @@
 <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
 <!-- Create an element where the map will take place -->
-<svg id="my_dataviz" width="800" height="600"></svg>
+<svg id="my_dataviz" width="800" height="600" ></svg>
 
 
 <script>
@@ -47,8 +47,8 @@ d3.queue()
   .await(ready);
 
 function scale_size(value){
-  var MAX_VAL = 70; 
-  var MIN_VAL = 0; 
+  var MAX_VAL = 70;
+  var MIN_VAL = 0;
   var MAX_SIZE = 50;
 
   return (value*MAX_SIZE)/(MAX_VAL - MIN_VAL);
@@ -115,7 +115,7 @@ function ready(error, topo) {
         } else {
           return "white";
         }
-        
+
       })
 
       .style("stroke", "gray")
@@ -196,8 +196,8 @@ function ready(error, topo) {
       }
 
 
-    
+
     }
-  
+
 
 </script>
