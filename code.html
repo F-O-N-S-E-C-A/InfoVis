@@ -42,7 +42,8 @@ var colorScale = d3.scaleThreshold()
 
 // Load external data and boot
 d3.queue()
-  .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+  //.defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+  .defer(d3.json, "./map_info.json")
   .defer(d3.csv, "./dataset.csv", function(d) {data.set(d.ID, {"GEO" : d.GEO, "inf" : +d.hrst_2020});})
   .await(ready);
 
@@ -53,6 +54,7 @@ function scale_size(value){
 
   return (value*MAX_SIZE)/(MAX_VAL - MIN_VAL);
 }
+
 
 function ready(error, topo) {
 
@@ -155,7 +157,9 @@ function ready(error, topo) {
             .attr("transform", function(d) {
               if(data.get(d.id)){ // show just the countries in the data base
                 if (!isNaN(data.get(d.id)["inf"])){
+
                   let coords = d3.geoPath().projection(projection).centroid(d.geometry);
+
                   return `translate(${coords[0]}, ${coords[1]})`
                 }
               }
