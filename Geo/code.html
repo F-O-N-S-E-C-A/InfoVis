@@ -36,7 +36,8 @@ var colorScale = d3.scaleThreshold()
 
 // Loads GEO Data
 d3.queue()
-  .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+  //.defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+  .defer(d3.json, "/data/worldMapCountries.json")
   .defer(d3.csv, "/data/csvCleaned.csv", function(d) {data.set(d.ID, {"GEO" : d.GEO, "inf" : +d.hrst_2020});})
   .await(ready);
 
