@@ -1,41 +1,38 @@
 <!DOCTYPE html>
+<head>
+  <script cross-site-cookie=whatever; SameSite=None; src="js/scriptBasic.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
 <html>
 <link rel="stylesheet" href="css/Dashboard.css">
 <main>
   <hgroup align=center>
     <h2 >Dashboard</h2>
   </hgroup>
-
   <did clas="main">
     <input type="range" min="0" max="200" value="200">
   </did>
-
   <section>
     <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 800px; height: 600px; ">
       <div style="width: 800px; height: 600px">
-        <iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="./Geo/code.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
+        <iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/LeftSide.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
       </div>
     </div>
-
     <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 270px; height: 600px; ">
       <div style="width: 270px; height: 600px">
         <input type="checkbox" id="checkbox1" name="checkbox1" value="Map colors">
         <label for="checkbox1"> Map colors</label><br>
         <input type="checkbox" id="checkbox1" name="checkbox2" value="Hubs quares">
         <label for="checkbox2"> Hubs quares</label><br>
-        <!--<iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="code.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>-->
+        <!--<iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="LeftSide.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>-->
       </div>
     </div>
-
     <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 800px; height: 600px; ">
       <div style="width: 800px; height: 600px">
-        <!--<iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="code.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>-->
+        <iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/RightSide.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
       </div>
     </div>
-
   </section>
-
 </main>
-
 <footer><small>Copyright © 2022 Joao Lopes, Tiago Fonseca and David Huber</small></footer>
 </html>
