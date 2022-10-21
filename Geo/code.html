@@ -36,8 +36,14 @@ var colorScale = d3.scaleThreshold()
 
 // Loads GEO Data
 d3.queue()
+<<<<<<< HEAD:Geo/code.html
   .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
   .defer(d3.csv, "/data/csvCleaned.csv", function(d) {data.set(d.ID, {"GEO" : d.GEO, "inf" : +d.hrst_2020});})
+=======
+  //.defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+  .defer(d3.json, "./map_info.json")
+  .defer(d3.csv, "./dataset.csv", function(d) {data.set(d.ID, {"GEO" : d.GEO, "inf" : +d.hrst_2020});})
+>>>>>>> 98f56945a4b1f88b82286dff78fa043ed2f8eb24:code.html
   .await(ready);
 
 // Defines scale
@@ -47,6 +53,7 @@ function scale_size(value){
   var MAX_SIZE = 50;
   return (value*MAX_SIZE)/(MAX_VAL - MIN_VAL);
 }
+
 
 function ready(error, topo) {
   let mouseOver = function(d) {
@@ -148,7 +155,9 @@ function ready(error, topo) {
             .attr("transform", function(d) {
               if(data.get(d.id)){ // show just the countries in the data base
                 if (!isNaN(data.get(d.id)["inf"])){
+
                   let coords = d3.geoPath().projection(projection).centroid(d.geometry);
+
                   return `translate(${coords[0]}, ${coords[1]})`
                 }
               }
