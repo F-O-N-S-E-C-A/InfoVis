@@ -1,25 +1,19 @@
 <!-- Code from d3-graph-gallery.com -->
 <!DOCTYPE html>
 <meta charset="utf-8">
-
 <!-- Load d3.js -->
 <script src="http://d3js.org/d3.v4.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-
 <!-- Create an element where the map will take place -->
 <svg id="my_dataviz" width="800" height="600" ></svg>
-
-
 <script>
 
 var SHOW_COLORS = true; // checkbox
 var SHOW_HUBS = true; // checkbox
 
-
 var ANIMATION_SPEED = 50;
 var COLOR_SCALE = d3.scaleLinear().domain([1,70]).range(["white", "blue"]);
-
 
 // The svg
 var svg = d3.select("svg"),
@@ -29,9 +23,10 @@ var svg = d3.select("svg"),
 // Map and projection
 var path = d3.geoPath();
 var projection = d3.geoMercator()
-  .center([ 13, 52 ])  // to just show europe
-  .scale([ width / 1.5 ]) // to just show europe
-  .translate([ width / 2, height / 2 ]) // to just show europe
+    //The three lines bellow select the Europe zone;
+  .center([ 13, 52 ])
+  .scale([ width / 1.5 ])
+  .translate([ width / 2, height / 2 ])
 
 // Data and color scale
 var data = d3.map();
@@ -39,23 +34,21 @@ var colorScale = d3.scaleThreshold()
   .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
   .range(d3.schemeBlues[8]);
 
-
-// Load external data and boot
+// Loads GEO Data
 d3.queue()
   .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
-  .defer(d3.csv, "./dataset.csv", function(d) {data.set(d.ID, {"GEO" : d.GEO, "inf" : +d.hrst_2020});})
+  .defer(d3.csv, "/data/csvCleaned.csv", function(d) {data.set(d.ID, {"GEO" : d.GEO, "inf" : +d.hrst_2020});})
   .await(ready);
 
+// Defines scale
 function scale_size(value){
   var MAX_VAL = 70;
   var MIN_VAL = 0;
   var MAX_SIZE = 50;
-
   return (value*MAX_SIZE)/(MAX_VAL - MIN_VAL);
 }
 
 function ready(error, topo) {
-
   let mouseOver = function(d) {
     d3.selectAll(".Country")
       .filter(function(d) {
