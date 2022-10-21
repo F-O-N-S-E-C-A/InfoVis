@@ -13,7 +13,7 @@ var SHOW_COLORS = true; // checkbox
 var SHOW_HUBS = true; // checkbox
 
 var ANIMATION_SPEED = 50;
-var COLOR_SCALE = d3.scaleLinear().domain([1,70]).range(["white", "blue"]);
+var COLOR_SCALE = d3.scaleLinear().domain([25, 70]).range(["white", "blue"]); // range of color
 
 // The svg
 var svg = d3.select("svg"),
@@ -38,23 +38,23 @@ var colorScale = d3.scaleThreshold()
 d3.queue()
   //.defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
   .defer(d3.json, "/data/worldMapCountries.json")
-  .defer(d3.csv, "/data/csvCleaned.csv", function(d) {data.set(d.ID, {"GEO" : d.GEO, "inf" : +d.hrst_2020});})
+  .defer(d3.csv, "/data/csvCleaned.csv", function(d) {data.set(d.ID, {"GEO" : d.GEO, "hubs" : +d.hub_2020, "itPop" : +d.hrst_2020});})
   .await(ready);
 
 // Defines scale
 function scale_size(value){
-  var MAX_VAL = 70;
-  var MIN_VAL = 0;
-  var MAX_SIZE = 50;
+  var MAX_VAL = 0.5;
+  var MIN_VAL = 0.0;
+  var MAX_SIZE = 45;
   return (value*MAX_SIZE)/(MAX_VAL - MIN_VAL);
 }
 
 
 function ready(error, topo) {
-  let mouseOver = function(d) {
+  let mouseOverCountry = function(d) {
     d3.selectAll(".Country")
       .filter(function(d) {
-        return data.get(d.id);;
+        return data.get(d.id);
       })
       .transition()
       .duration(ANIMATION_SPEED)
@@ -69,7 +69,7 @@ function ready(error, topo) {
       .style("stroke", "gray")
   }
 
-  let mouseLeave = function(d) {
+  let mouseLeaveCountry = function(d) {
     d3.selectAll(".Country")
       .filter(function(d) {
         return data.get(d.id);
@@ -84,6 +84,42 @@ function ready(error, topo) {
       .transition()
       .duration(ANIMATION_SPEED)
       .style("stroke", "gray")
+  }
+
+  let mouseOverHub = function(d) {
+    d3.selectAll(".Country")
+      .filter(function(d) {
+        return data.get(d.id);
+      })
+      .transition()
+      .duration(ANIMATION_SPEED)
+      .style("opacity", .5)
+    d3.select(this)
+      .filter(function(d) {
+        return data.get(d.id);
+      })
+      .transition()
+      .duration(ANIMATION_SPEED)
+      .style("stroke", "red")
+      .style("opacity", .6)
+  }
+
+  let mouseLeaveHub = function(d) {
+    d3.selectAll(".Country")
+      .filter(function(d) {
+        return data.get(d.id);
+      })
+      .transition()
+      .duration(ANIMATION_SPEED)
+      .style("opacity", .8)
+    d3.select(this)
+      .filter(function(d) {
+        return data.get(d.id);
+      })
+      .transition()
+      .duration(ANIMATION_SPEED)
+      .style("stroke", "black")
+      .style("opacity", .4)
   }
 
   // Draw the map
@@ -101,11 +137,10 @@ function ready(error, topo) {
         if(SHOW_COLORS){
           var dt = data.get(d.id)
           if (dt){
-
-            if (isNaN(dt["inf"])){
+            if (isNaN(dt["itPop"])){
               return "black"; // no data available
             }
-            return COLOR_SCALE(dt["inf"]); // set color scale
+            return COLOR_SCALE(dt["itPop"]); // set color scale
           }
         } else {
           return "white";
@@ -116,8 +151,8 @@ function ready(error, topo) {
       .style("stroke", "gray")
       .attr("class", function(d){ return "Country" })
       .style("opacity", .8)
-      .on("mouseover", mouseOver )
-      .on("mouseleave", mouseLeave )
+      .on("mouseover", mouseOverCountry )
+      .on("mouseleave", mouseLeaveCountry )
 
       // paint the coutries that are not in the dataset in grey
       d3.selectAll(".Country")
@@ -149,7 +184,7 @@ function ready(error, topo) {
           .append("rect").attr("d", d3.geoPath().projection(projection))
             .attr("transform", function(d) {
               if(data.get(d.id)){ // show just the countries in the data base
-                if (!isNaN(data.get(d.id)["inf"])){
+                if (!isNaN(data.get(d.id)["hubs"])){
 
                   let coords = d3.geoPath().projection(projection).centroid(d.geometry);
 
@@ -159,37 +194,39 @@ function ready(error, topo) {
             })
             .attr("x", function(d){
               if(data.get(d.id)){
-                if (!isNaN(data.get(d.id)["inf"])){
-                  let side = data.get(d.id)["inf"];
+                if (!isNaN(data.get(d.id)["hubs"])){
+                  let side = data.get(d.id)["hubs"];
                   return -(scale_size(side)/2);
                 }
               }
             })
             .attr("y", function(d){
               if(data.get(d.id)){
-                if (!isNaN(data.get(d.id)["inf"])){
-                  let side = data.get(d.id)["inf"];
+                if (!isNaN(data.get(d.id)["hubs"])){
+                  let side = data.get(d.id)["hubs"];
                   return -(scale_size(side)/2);
                 }
               }
             })
             .attr('width', function(d){
               if(data.get(d.id)){
-                if (!isNaN(data.get(d.id)["inf"])){
-                  return scale_size(data.get(d.id)["inf"]);
+                if (!isNaN(data.get(d.id)["hubs"])){
+                  return scale_size(data.get(d.id)["hubs"]);
                 }
               }
             })
             .attr('height', function(d){
               if(data.get(d.id)){
-                if (!isNaN(data.get(d.id)["inf"])){
-                  return scale_size(data.get(d.id)["inf"]);
+                if (!isNaN(data.get(d.id)["hubs"])){
+                  return scale_size(data.get(d.id)["hubs"]);
                 }
               }
             })
-            .attr('stroke', 'red')
+            .attr('stroke', 'black')
             .attr('fill', 'white')
             .style("opacity", .4)
+            .on("mouseover", mouseOverHub )
+            .on("mouseleave", mouseLeaveHub )
       }
 
 
