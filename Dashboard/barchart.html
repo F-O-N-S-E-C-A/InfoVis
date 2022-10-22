@@ -34,7 +34,6 @@ div#container {
   width: 800px;
   height: 600px;
   margin: auto;
-  background-color: #2F4A6D;
 }
 
 svg {
@@ -48,19 +47,19 @@ svg {
 
 text {
   font-size: 12px;
-  fill: #fff;
+  fill: #000000;
 }
 
 path {
-  stroke: gray;
+  stroke: black;
 }
 
 line {
-  stroke: gray;
+  stroke: black;
 }
 
 line#limit {
-  stroke: #FED966;
+  stroke: #000000;
   stroke-width: 3;
   stroke-dasharray: 3 6;
 }
@@ -70,13 +69,13 @@ line#limit {
 }
 
 .grid .tick line {
-  stroke: #9FAAAE;
+  stroke: #000000;
   stroke-opacity: 0.3;
 }
 
 text.divergence {
   font-size: 14px;
-  fill: #2F4A6D;
+  fill: #000000;
 }
 
 text.value {
@@ -99,7 +98,8 @@ text.source {
   </style>
 
 <script>
-
+var countryID = sessionStorage.getItem("selectedCountry");
+console.log(countryID);
   // https://insights.stackoverflow.com/survey/2018/#technology-most-loved-dreaded-and-wanted-languages
     const sample = [
       {
@@ -282,27 +282,20 @@ text.source {
       .attr('y', margin / 2.4)
       .attr('transform', 'rotate(-90)')
       .attr('text-anchor', 'middle')
-      .text('Love meter (%)')
+      .text('Love meter (%)') //TODO
 
     svg.append('text')
       .attr('class', 'label')
       .attr('x', width / 2 + margin)
       .attr('y', height + margin * 1.7)
       .attr('text-anchor', 'middle')
-      .text('Languages')
+      .text('Countries')
 
     svg.append('text')
       .attr('class', 'title')
       .attr('x', width / 2 + margin)
       .attr('y', 40)
       .attr('text-anchor', 'middle')
-      .text('Most loved programming languages in 2018')
-
-    svg.append('text')
-      .attr('class', 'source')
-      .attr('x', width - margin / 2)
-      .attr('y', height + margin * 1.7)
-      .attr('text-anchor', 'start')
-      .text('Source: Stack Overflow, 2018')
+      .text('TODO TITLE') //TODO
 
 </script>
