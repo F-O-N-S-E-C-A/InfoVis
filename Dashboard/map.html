@@ -9,8 +9,9 @@
 <svg id="my_dataviz" width="800" height="600" ></svg>
 <script>
 
-var SHOW_COLORS = true; // checkbox
-var SHOW_HUBS = true; // checkbox
+
+var SHOW_COLORS = check_flag("mapColors"); // checkbox
+var SHOW_HUBS = check_flag("hubs"); // checkbox
 
 var ANIMATION_SPEED = 50;
 var COLOR_SCALE = d3.scaleLinear().domain([25, 70]).range(["white", "blue"]); // range of color
@@ -49,6 +50,14 @@ function scale_size(value){
   return (value*MAX_SIZE)/(MAX_VAL - MIN_VAL);
 }
 
+function check_flag(flag_name){
+  var value = sessionStorage.getItem(flag_name);
+  if (value === "true"){
+    return true;
+  } else {
+    return false;
+  }
+}
 
 function ready(error, topo) {
   let mouseOverCountry = function(d) {

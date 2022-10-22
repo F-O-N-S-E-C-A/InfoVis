@@ -6,6 +6,9 @@ var margin = {top: 30, right: 30, bottom: 70, left: 60},
 
 
 function init(){
+
+    console.log(window.mapColors);
+
     createBarChart("#retention");
     //createScatterPlot("#correlation");
 }
