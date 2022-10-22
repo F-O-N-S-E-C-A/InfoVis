@@ -45,7 +45,7 @@ function createBarChart(id) {
             .call(d3.axisLeft(y));
 
 // Bars
-        svg.selectAll("mybar")
+        /*svg.selectAll("mybar")
             .data(data)
             .enter()
             .append("rect")
@@ -59,7 +59,7 @@ function createBarChart(id) {
             .attr("height", function (d) {
                 return height - y(d.retention_2010);
             })
-            .attr("fill", "#69b3a2")
+            .attr("fill", "#69b3a2")*/
     })
 }
 

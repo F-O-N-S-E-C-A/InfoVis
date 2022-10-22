@@ -15,24 +15,64 @@
   <section>
     <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 800px; height: 600px; ">
       <div style="width: 800px; height: 600px">
-        <iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/LeftSide.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
+        <iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/map.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
       </div>
     </div>
     <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 270px; height: 600px; ">
       <div style="width: 270px; height: 600px">
-        <input type="checkbox" id="checkbox1" name="checkbox1" value="Map colors">
-        <label for="checkbox1"> Map colors</label><br>
-        <input type="checkbox" id="checkbox1" name="checkbox2" value="Hubs quares">
-        <label for="checkbox2"> Hubs quares</label><br>
-        <!--<iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="LeftSide.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>-->
+        <input type="checkbox" id="checkbox1" name="checkbox1" value="Map colors" onclick="mapColorsClicked()">
+        <label for="checkbox1"> Percentage of popolation working in IT</label><br>
+        <input type="checkbox" id="checkbox2" name="checkbox2" value="Hubs squares" onclick="hubsClicked()">
+        <label for="checkbox2"> Hubs</label><br>
+        <!---<iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/map.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>--->
       </div>
     </div>
     <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 800px; height: 600px; ">
       <div style="width: 800px; height: 600px">
-        <iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/RightSide.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
+        <iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/barChart.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
       </div>
     </div>
   </section>
 </main>
-<footer><small>Copyright © 2022 Joao Lopes, Tiago Fonseca and David Huber</small></footer>
+<footer><small>Copyright 2022 Joao Lopes, Tiago Fonseca and David Huber</small></footer>
+
+<script src="FileSaver.js"></script>
+<script>
+
+  function mapColorsClicked(){
+    var check_box = document.getElementById("checkbox1");
+    if (check_box.checked){
+      saveToFile("map");
+    } else {
+      console.log("unchecked");
+    }
+  }
+
+  function hubsClicked(){
+    var check_box = document.getElementById("checkbox2");
+    if (check_box.checked){
+      console.log("checked");
+      console.log(readFromFile());
+    } else {
+      console.log("unchecked");
+    }
+  }
+
+  function readFromFile(){
+    var content;
+    var fr = new FileReader();
+    fr.onload = function(e) {
+      content = e.target.result; // here is the loaded content;
+    };
+    fr.readAsText(document.querySelector("usr_data.txt"));
+    //reader.readAsText(document.querySelector('input').files[0]);
+    return content;
+  }
+
+  function saveToFile(data) {
+    var blob = new Blob([data], { type: "text/plain;charset=utf-8" });
+    saveAs(blob, "usr_data.txt");
+  }
+
+</script>
 </html>
