@@ -13,6 +13,8 @@
 var SHOW_COLORS = check_flag("mapColors"); // checkbox
 var SHOW_HUBS = check_flag("hubs"); // checkbox
 
+var year = sessionStorage.getItem("year");
+
 var ANIMATION_SPEED = 50;
 var COLOR_SCALE = d3.scaleLinear().domain([25, 70]).range(["white", "blue"]); // range of color
 
@@ -39,7 +41,30 @@ var colorScale = d3.scaleThreshold()
 d3.queue()
   //.defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
   .defer(d3.json, "/data/worldMapCountries.json")
-  .defer(d3.csv, "/data/csvCleaned.csv", function(d) {data.set(d.ID, {"GEO" : d.GEO, "hubs" : +d.hub_2020, "itPop" : +d.hrst_2020});})
+  .defer(d3.csv, "/data/csvCleaned.csv", function(d) {data.set(d.ID, {"GEO" : d.GEO,
+    "hub_2010" : +d.hub_2010, 
+    "hub_2011" : +d.hub_2011, 
+    "hub_2012" : +d.hub_2012, 
+    "hub_2013" : +d.hub_2013, 
+    "hub_2014" : +d.hub_2014, 
+    "hub_2015" : +d.hub_2014, 
+    "hub_2016" : +d.hub_2016, 
+    "hub_2017" : +d.hub_2017, 
+    "hub_2018" : +d.hub_2018, 
+    "hub_2019" : +d.hub_2019, 
+    "hub_2020" : +d.hub_2020,
+    "itPop_2010" : +d.hrst_2010,
+    "itPop_2011" : +d.hrst_2011,
+    "itPop_2012" : +d.hrst_2012,
+    "itPop_2013" : +d.hrst_2013,
+    "itPop_2014" : +d.hrst_2014,
+    "itPop_2015" : +d.hrst_2015,
+    "itPop_2016" : +d.hrst_2016,
+    "itPop_2017" : +d.hrst_2017,
+    "itPop_2018" : +d.hrst_2018,
+    "itPop_2019" : +d.hrst_2019,
+    "itPop_2020" : +d.hrst_2020}
+    );})
   .await(ready);
 
 // Defines scale
@@ -154,10 +179,11 @@ function ready(error, topo) {
         if(SHOW_COLORS){
           var dt = data.get(d.id)
           if (dt){
-            if (isNaN(dt["itPop"])){
+            var dataset_comlumn = "itPop_" + year;
+            if (isNaN(dt[dataset_comlumn])){
               return "black"; // no data available
             }
-            return COLOR_SCALE(dt["itPop"]); // set color scale
+            return COLOR_SCALE(dt[dataset_comlumn]); // set color scale
           }
         } else {
           return "white";
@@ -195,13 +221,14 @@ function ready(error, topo) {
       }*/
 
       if (SHOW_HUBS){
+        var hubs_year = "hub_" + year;
         svg.selectAll("rect")
         .data(topo.features)
         .enter()
           .append("rect").attr("d", d3.geoPath().projection(projection))
             .attr("transform", function(d) {
               if(data.get(d.id)){ // show just the countries in the data base
-                if (!isNaN(data.get(d.id)["hubs"])){
+                if (!isNaN(data.get(d.id)[hubs_year])){
 
                   let coords = d3.geoPath().projection(projection).centroid(d.geometry);
 
@@ -211,31 +238,31 @@ function ready(error, topo) {
             })
             .attr("x", function(d){
               if(data.get(d.id)){
-                if (!isNaN(data.get(d.id)["hubs"])){
-                  let side = data.get(d.id)["hubs"];
+                if (!isNaN(data.get(d.id)[hubs_year])){
+                  let side = data.get(d.id)[hubs_year];
                   return -(scale_size(side)/2);
                 }
               }
             })
             .attr("y", function(d){
               if(data.get(d.id)){
-                if (!isNaN(data.get(d.id)["hubs"])){
-                  let side = data.get(d.id)["hubs"];
+                if (!isNaN(data.get(d.id)[hubs_year])){
+                  let side = data.get(d.id)[hubs_year];
                   return -(scale_size(side)/2);
                 }
               }
             })
             .attr('width', function(d){
               if(data.get(d.id)){
-                if (!isNaN(data.get(d.id)["hubs"])){
-                  return scale_size(data.get(d.id)["hubs"]);
+                if (!isNaN(data.get(d.id)[hubs_year])){
+                  return scale_size(data.get(d.id)[hubs_year]);
                 }
               }
             })
             .attr('height', function(d){
               if(data.get(d.id)){
-                if (!isNaN(data.get(d.id)["hubs"])){
-                  return scale_size(data.get(d.id)["hubs"]);
+                if (!isNaN(data.get(d.id)[hubs_year])){
+                  return scale_size(data.get(d.id)[hubs_year]);
                 }
               }
             })
