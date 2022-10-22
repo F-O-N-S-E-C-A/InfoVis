@@ -59,6 +59,12 @@ function check_flag(flag_name){
   }
 }
 
+function set_selected_country(countryID){
+  sessionStorage.setItem("selectedCountry", countryID);
+  var barchart = window.parent.document.getElementById("barchart");
+  barchart.src = barchart.src;
+}
+
 function ready(error, topo) {
   let mouseOverCountry = function(d) {
     d3.selectAll(".Country")
@@ -76,6 +82,7 @@ function ready(error, topo) {
       .duration(ANIMATION_SPEED)
       .style("opacity", 1)
       .style("stroke", "gray")
+    set_selected_country(d.id);
   }
 
   let mouseLeaveCountry = function(d) {
@@ -111,6 +118,7 @@ function ready(error, topo) {
       .duration(ANIMATION_SPEED)
       .style("stroke", "green")
       .style("opacity", .6)
+    set_selected_country(d.id);
   }
 
   let mouseLeaveHub = function(d) {
