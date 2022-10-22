@@ -28,10 +28,10 @@
           <!---<iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/map.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>--->
         </div>
       </div>
-      <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 800px; height: 600px; ">
-        <div style="width: 800px; height: 600px">
-          <iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/barChart.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
-        </div>
+    </div>
+    <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 800px; height: 600px; ">
+      <div style="width: 800px; height: 600px">
+        <iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="barchart.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
       </div>
     </section>
   </main>
@@ -43,12 +43,12 @@
   function mapColorsClicked(){
     var check_box = document.getElementById("checkbox1");
     if (check_box.checked){
-    
+
       sessionStorage.setItem("mapColors", "true");
       reload_map();
-      
+
     } else {
-      
+
       sessionStorage.setItem("mapColors", "false");
       reload_map();
     }
@@ -74,7 +74,7 @@
         document.getElementById('output')
                 .textContent=fr.result;
     }
-      
+
     var txt = fr.readAsText("usr_data.txt");
     console.log(txt);
   }
