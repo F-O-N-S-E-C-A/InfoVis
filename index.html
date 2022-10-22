@@ -5,35 +5,37 @@
 </head>
 <html>
 <link rel="stylesheet" href="css/Dashboard.css">
-<main>
-  <hgroup align=center>
-    <h2 >Dashboard</h2>
-  </hgroup>
-  <did clas="main">
-    <input type="range" min="0" max="200" value="200">
-  </did>
-  <section>
-    <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 800px; height: 600px; ">
-      <div style="width: 800px; height: 600px">
-        <iframe scrolling="no" id="map" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/map.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
+<body onload="reloadPage()">
+  <main>
+    <hgroup align=center>
+      <h2 >Dashboard</h2>
+    </hgroup>
+    <did clas="main">
+      <input type="range" min="0" max="200" value="200">
+    </did>
+    <section>
+      <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 800px; height: 600px; ">
+        <div style="width: 800px; height: 600px">
+          <iframe scrolling="no" id="map" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/map.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
+        </div>
       </div>
-    </div>
-    <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 270px; height: 600px; ">
-      <div style="width: 270px; height: 600px">
-        <input type="checkbox" id="checkbox1" name="checkbox1" value="Map colors" onclick="mapColorsClicked()">
-        <label for="checkbox1"> Percentage of popolation working in IT</label><br>
-        <input type="checkbox" id="checkbox2" name="checkbox2" value="Hubs squares" onclick="hubsClicked()">
-        <label for="checkbox2"> Hubs</label><br>
-        <!---<iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/map.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>--->
+      <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 270px; height: 600px; ">
+        <div style="width: 270px; height: 600px">
+          <input type="checkbox" id="checkbox1" name="checkbox1" value="Map colors" onclick="mapColorsClicked()">
+          <label for="checkbox1"> Percentage of popolation working in IT</label><br>
+          <input type="checkbox" id="checkbox2" name="checkbox2" value="Hubs squares" onclick="hubsClicked()">
+          <label for="checkbox2"> Hubs</label><br>
+          <!---<iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/map.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>--->
+        </div>
       </div>
-    </div>
-    <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 800px; height: 600px; ">
-      <div style="width: 800px; height: 600px">
-        <iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/barChart.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
+      <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 800px; height: 600px; ">
+        <div style="width: 800px; height: 600px">
+          <iframe scrolling="no" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/barChart.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
+        </div>
       </div>
-    </div>
-  </section>
-</main>
+    </section>
+  </main>
+</body>
 <footer><small>Copyright 2022 Joao Lopes, Tiago Fonseca and David Huber</small></footer>
 
 <script>
@@ -80,6 +82,14 @@
   function reload_map(){
     var map = document.getElementById("map");
     map.src = map.src;
+  }
+
+  function reloadPage(){
+    document.getElementById("checkbox1").checked = "on";
+    document.getElementById("checkbox2").checked = "on";
+    sessionStorage.setItem("mapColors", "true");
+    sessionStorage.setItem("hubs", "true");
+    reload_map();
   }
 
 </script>

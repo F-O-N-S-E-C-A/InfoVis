@@ -109,7 +109,7 @@ function ready(error, topo) {
       })
       .transition()
       .duration(ANIMATION_SPEED)
-      .style("stroke", "red")
+      .style("stroke", "green")
       .style("opacity", .6)
   }
 
@@ -127,7 +127,7 @@ function ready(error, topo) {
       })
       .transition()
       .duration(ANIMATION_SPEED)
-      .style("stroke", "black")
+      .style("stroke", "red")
       .style("opacity", .4)
   }
 
@@ -231,7 +231,7 @@ function ready(error, topo) {
                 }
               }
             })
-            .attr('stroke', 'black')
+            .attr('stroke', 'red')
             .attr('fill', 'white')
             .style("opacity", .4)
             .on("mouseover", mouseOverHub )
