@@ -7,7 +7,7 @@
   <title>Bar chart with D3.js</title>
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 <body>
   <div id='layout'>
@@ -101,7 +101,7 @@ text.source {
 var countryID = sessionStorage.getItem("selectedCountry");
 console.log(countryID);
   // https://insights.stackoverflow.com/survey/2018/#technology-most-loved-dreaded-and-wanted-languages
-    const sample = [
+    /*const sample = [
       {
         language: 'Rust',
         value: 78.9,
@@ -152,7 +152,41 @@ console.log(countryID);
         value: 59.6,
         color: '#507dca'
       }
-    ];
+    ];*/
+
+    var sample = {};
+
+    d3.csv("/data/csvCleaned.csv", function(d) {data[d.ID] = {"GEO" : d.GEO,
+      "retention_2010" : +d.retention_2010,
+      "retention_2011" : +d.retention_2011,
+      "retention_2012" : +d.retention_2012,
+      "retention_2013" : +d.retention_2013,
+      "retention_2014" : +d.retention_2014,
+      "retention_2015" : +d.retention_2014,
+      "retention_2016" : +d.retention_2016,
+      "retention_2017" : +d.retention_2017,
+      "retention_2018" : +d.retention_2018,
+      "retention_2019" : +d.retention_2019,
+      "retention_2020" : +d.retention_2020};
+
+      for (let i = 0; i<d.length; i++){
+          sample[d[i]["ID"]] = {
+            "retention_2010" : d[i]["retention_2010"],
+            "retention_2011" : d[i]["retention_2011"],
+            "retention_2012" : d[i]["retention_2012"],
+            "retention_2013" : d[i]["retention_2013"],
+            "retention_2014" : d[i]["retention_2014"],
+            "retention_2015" : d[i]["retention_2015"],
+            "retention_2016" : d[i]["retention_2016"],
+            "retention_2017" : d[i]["retention_2017"],
+            "retention_2018" : d[i]["retention_2018"],
+            "retention_2019" : d[i]["retention_2019"],
+            "retention_2020" : d[i]["retention_2020"],
+          };
+      }
+    });
+
+    console.log(sample);
 
     const svg = d3.select('svg');
     const svgContainer = d3.select('#container');
