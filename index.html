@@ -31,7 +31,7 @@
     </div>
     <div class="View 1" style="overflow-y: hidden; border: 2px solid black; width: 800px; height: 600px; ">
       <div style="width: 800px; height: 600px">
-        <iframe scrolling="no" id="barchart" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/bar_chart.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
+        <iframe scrolling="no" id="ridgeline" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/ridgeline.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
       </div>
     </section>
   </main>
@@ -49,6 +49,11 @@
     sessionStorage.setItem("year", "2015");
     sessionStorage.setItem("mapColors", "true");
     sessionStorage.setItem("hubs", "falss");
+  }
+
+  function reload_map(){
+    var map = document.getElementById("map");
+    map.src = map.src;
   }
 
   function mapColorsClicked(){

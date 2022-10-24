@@ -86,8 +86,8 @@ function check_flag(flag_name){
 
 function set_selected_country(countryID){
   sessionStorage.setItem("selectedCountry", countryID);
-  var barchart = window.parent.document.getElementById("barchart");
-  barchart.src = barchart.src;
+  var ridgeline = window.parent.document.getElementById("ridgeline");
+  ridgeline.src = ridgeline.src;
 }
 
 function ready(error, topo) {
