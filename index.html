@@ -4,7 +4,7 @@
 </head>
 <html>
 <link rel="stylesheet" href="css/Dashboard.css">
-<body onload="reloadPage()">
+<body onload="loadPage()">
   <main>
     <hgroup align=center>
       <h2 >Dashboard</h2>
@@ -45,6 +45,12 @@
     reload_map();
   }
 
+  function loadPage(){
+    sessionStorage.setItem("year", "2015");
+    sessionStorage.setItem("mapColors", "true");
+    sessionStorage.setItem("hubs", "falss");
+  }
+
   function mapColorsClicked(){
     var check_box = document.getElementById("checkbox1");
     if (check_box.checked){
@@ -71,30 +77,6 @@
       sessionStorage.setItem("hubs", "false");
       reload_map();
     }
-  }
-
-  function readFromFile(){
-    var fr = new FileReader();
-    fr.onload=function(){
-        document.getElementById('output')
-                .textContent=fr.result;
-    }
-
-    var txt = fr.readAsText("usr_data.txt");
-    console.log(txt);
-  }
-
-  function reload_map(){
-    var map = document.getElementById("map");
-    map.src = map.src;
-  }
-
-  function reloadPage(){
-    document.getElementById("checkbox1").checked = "on";
-    document.getElementById("checkbox2").checked = "on";
-    sessionStorage.setItem("mapColors", "true");
-    sessionStorage.setItem("hubs", "true");
-    reload_map();
   }
 
 </script>
