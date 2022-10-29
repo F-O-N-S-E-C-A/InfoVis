@@ -36,6 +36,8 @@
 
     //Read the data
     d3.csv("../data/csvCleaned.csv", function(data) {
+        var testY= [{"y":25000},{"y":50000}]
+        var testX= [{"x":25},{"x":50}]
         // Add X axis
         var x = d3.scaleLinear()
             .domain([0, 100])
@@ -46,7 +48,7 @@
 
         // Add Y axis
         var y = d3.scaleLinear()
-            .domain([5000, 110000])
+            .domain([5000, 130000])
             .range([ height, 0]);
         svg.append("g")
             .call(d3.axisLeft(y));
@@ -81,7 +83,6 @@
                 .attr("cx", function (d) {
                     switch(+year){
                         case 2010:
-                            console.log("SWITCH_1 ano 2010");
                             return x(d.hrst_2010);
                         case 2011:
                             return x(d.hrst_2011);
@@ -104,15 +105,13 @@
                         case 2020:
                             return x(d.hrst_2020);
                         default:
-                            console.log("entrou no switch1: DEFAULT");
-                            return x(d.hrst_2020);
-
+                            return x(d.hrst_2015);
                     }
                 })
                 .attr("cy", function (d) {
-                    switch(year){
+                    switch(+year){
                         case 2010:
-                            return y(d.AverageWage_2011);
+                            return y(d.AverageWage_2010);
                         case 2011:
                             return y(d.AverageWage_2011);
                         case 2012:
@@ -122,7 +121,6 @@
                         case 2014:
                             return y(d.AverageWage_2014);
                         case 2015:
-                            console.log("entrou no y de Wage");
                             return y(d.AverageWage_2015);
                         case 2016:
                             return y(d.AverageWage_2016);
@@ -135,9 +133,9 @@
                         case 2020:
                             return y(d.AverageWage_2020);
                         default:
-                            console.log("entrou no switch2: DEFAULT");
-                            return y(d.AverageWage_2020);
-                }})
+                            return y(d.AverageWage_2015);
+                    }
+                })
                 .attr("stroke", "#32CD32")
                 .attr("stroke-width", 1.5)
                 .attr("fill", "#FFFFFF")
