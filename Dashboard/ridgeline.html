@@ -25,16 +25,27 @@ var svg = d3.select("#my_dataviz")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
+
+
+var country_retentions = {};
 //read data
-d3.csv("https://raw.githubusercontent.com/zonination/perceptions/master/probly.csv", function(data) {
+d3.csv("/data/csvCleaned.csv", function(data) {
+  for(let i = 0; i < data.length; i++){
+    var rets = [];
+    for(let y = 2010; y <= 2020; y++){
+      var ret = "retention_" + y
+      rets.push(data[i][ret]);
+    }
+    country_retentions[data[i]["ID"]] = rets;
+  }
 
   // Get the different categories and count them
-  var categories = data.columns
+  var categories = getKeys(country_retentions);
   var n = categories.length
 
   // Add X axis
   var x = d3.scaleLinear()
-    .domain([-10, 140])
+    .domain([0, 2020])
     .range([ 0, width ]);
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
@@ -54,11 +65,13 @@ d3.csv("https://raw.githubusercontent.com/zonination/perceptions/master/probly.c
     .call(d3.axisLeft(yName));
 
   // Compute kernel density estimation for each column:
-  var kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(40)) // increase this 40 for more accurate density.
+  var kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(10)) // increase this 40 for more accurate density.
   var allDensity = []
   for (i = 0; i < n; i++) {
       key = categories[i]
-      density = kde( data.map(function(d){  return d[key]; }) )
+      console.log(key)
+      density = kde( country_retentions[key] )
+      console.log(density)
       allDensity.push({key: key, density: density})
   }
 
@@ -79,6 +92,14 @@ d3.csv("https://raw.githubusercontent.com/zonination/perceptions/master/probly.c
       )
 
 })
+
+function getKeys(dict){
+  var keys_lst = [];
+  for(key in dict){
+   keys_lst.push(key);
+  }
+  return keys_lst
+}
 
 // This is what I need to compute kernel density estimation
 function kernelDensityEstimator(kernel, X) {
