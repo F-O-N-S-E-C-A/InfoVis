@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!-- Code from d3-graph-gallery.com -->
 <!DOCTYPE html>
 <meta charset="utf-8">
 
@@ -13,6 +7,7 @@
 
 <!-- Create a div where the graph will take place -->
 <div id="my_dataviz"></div>
+
 
 <script>
 
@@ -30,20 +25,35 @@
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
+
+
+    var country_retentions = {};
     //read data
+
+    console.log(window.location.pathname);
     d3.csv("../data/csvCleaned.csv", function(data) {
 
+        for(let i = 0; i < data.length; i++){
+            var rets = [];
+            for(let y = 2010; y <= 2020; y++){
+                var ret = "retention_" + y
+                rets.push(data[i][ret]);
+            }
+            country_retentions[data[i]["GEO"]] = rets;
+        }
+
         // Get the different categories and count them
-        var categories = data.columns
+        var categories = getKeys(country_retentions);
         var n = categories.length
 
         // Add X axis
         var x = d3.scaleLinear()
-            .domain([-10, 140])
+            .domain([2009, 2020])
             .range([ 0, width ]);
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
+            .call(d3.axisBottom(x).tickFormat(d3.format("d")));
+
 
         // Create a Y scale for densities
         var y = d3.scaleLinear()
@@ -59,11 +69,14 @@
             .call(d3.axisLeft(yName));
 
         // Compute kernel density estimation for each column:
-        var kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(40)) // increase this 40 for more accurate density.
+        var kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(10)) // increase this 40 for more accurate density.
         var allDensity = []
         for (i = 0; i < n; i++) {
             key = categories[i]
-            density = kde( data.map(function(d){  return d[key]; }) )
+            console.log(key)
+            console.log(country_retentions)
+            density = kde( country_retentions[key] )
+            console.log(density)
             allDensity.push({key: key, density: density})
         }
 
@@ -85,6 +98,14 @@
 
     })
 
+    function getKeys(dict){
+        var keys_lst = [];
+        for(key in dict){
+            keys_lst.push(key);
+        }
+        return keys_lst
+    }
+
     // This is what I need to compute kernel density estimation
     function kernelDensityEstimator(kernel, X) {
         return function(V) {
@@ -100,5 +121,3 @@
     }
 
 </script>
-</body>
-</html>
