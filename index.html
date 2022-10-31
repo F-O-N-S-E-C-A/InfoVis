@@ -46,6 +46,7 @@
     document.getElementById("year").innerHTML = value;
     sessionStorage.setItem("year", value);
     reload_map();
+    reload_scatterplot();
   }
 
   function loadPage(){
@@ -57,6 +58,10 @@
   function reload_map(){
     var map = document.getElementById("map");
     map.src = map.src;
+  }
+  function reload_scatterplot(){
+    var scatterPlot = document.getElementById("scatterPlot");
+    scatterPlot.src = scatterPlot.src;
   }
 
   function mapColorsClicked(){
