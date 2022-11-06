@@ -20,9 +20,9 @@
     var year = sessionStorage.getItem("year");
 
     // set the dimensions and margins of the graph
-    margin = {top: 10, right: 30, bottom: 30, left: 60},
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+    margin = {top: 0, right: 0, bottom: 0, left: 0},
+        width = 800 - margin.left - margin.right,
+        height = 300 - margin.top - margin.bottom;
 
     //Set ranges
     var x = d3.scaleLinear().range([0, width]);

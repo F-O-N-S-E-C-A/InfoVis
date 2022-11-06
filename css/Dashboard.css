@@ -325,3 +325,32 @@ div.tooltip {
   pointer-events: none;
   font-size: .7rem;
 }
+
+
+.container{
+  /* float: left; */
+  display: block;
+  width: 30%;
+
+}
+.slider {
+  height: 200px;
+  border-style: solid;
+  border-width: 5px;
+  border-color: green;
+  overflow: hidden;
+  left: 0;
+}
+.abs {
+  position: absolute;
+}
+.rel {
+  position: relative;
+}
+.slider img {
+  width: 100%;
+}
+
+.content{
+  border: 2px solid red;
+}
