@@ -181,7 +181,7 @@ function ready(error, topo) {
           if (dt){
             var dataset_comlumn = "itPop_" + year;
             if (isNaN(dt[dataset_comlumn])){
-              return "black"; // no data available
+              return "grey"; // no data available
             }
             return COLOR_SCALE(dt[dataset_comlumn]); // set color scale
           }
