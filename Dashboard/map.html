@@ -69,10 +69,9 @@ d3.queue()
 
 // Defines scale
 function scale_size(value){
-  var MAX_VAL = 0.5;
-  var MIN_VAL = 0.0;
-  var MAX_SIZE = 45;
-  return (value*MAX_SIZE)/(MAX_VAL - MIN_VAL);
+  var SCALE = 50;
+  //return (value*MAX_SIZE)/(MAX_VAL - MIN_VAL);
+  return (value - 0.15) * 100;
 }
 
 function check_flag(flag_name){
