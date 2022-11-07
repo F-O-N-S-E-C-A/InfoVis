@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="../css/Dashboard.css">
     <!-- Create a div where the graph will take place -->
     <div id="my_dataviz"></div>
+    <style>
+        .regression {
+            stroke-width: 2px;
+            stroke: steelblue;
+            stroke-dasharray: 10,5;
+        }
+    </style>
 </head>
 <body>
 
@@ -54,13 +61,137 @@
         svg.append("g")
             .call(d3.axisLeft(y).ticks(15));
 
+        var lg = calcLinear(data.filter(function(d){
+            return d.hrst_2010 != ":" && d.AverageWage_2010 != ":" &&
+                d.hrst_2011 != ":" && d.AverageWage_2011 != ":" &&
+                d.hrst_2012 != ":" && d.AverageWage_2012 != ":" &&
+                d.hrst_2013 != ":" && d.AverageWage_2013 != ":" &&
+                d.hrst_2014 != ":" && d.AverageWage_2014 != ":" &&
+                d.hrst_2015 != ":" && d.AverageWage_2015 != ":" &&
+                d.hrst_2016 != ":" && d.AverageWage_2016 != ":" &&
+                d.hrst_2017 != ":" && d.AverageWage_2017 != ":" &&
+                d.hrst_2018 != ":" && d.AverageWage_2018 != ":" &&
+                d.hrst_2019 != ":" && d.AverageWage_2019 != ":" &&d.hrst_2020 != ":" && d.AverageWage_2020 != ":";
+        }),
+                            "hrst_2015",
+                            "AverageWage_2015",
+                            /*We first filter the dataset to don't include ":",
+                             then we pass the column that we want to do the correlation*/
+                            d3.min(data.filter(function(d){
+            return d.hrst_2010 != ":" && d.AverageWage_2010 != ":" &&
+                d.hrst_2011 != ":" && d.AverageWage_2011 != ":" &&
+                d.hrst_2012 != ":" && d.AverageWage_2012 != ":" &&
+                d.hrst_2013 != ":" && d.AverageWage_2013 != ":" &&
+                d.hrst_2014 != ":" && d.AverageWage_2014 != ":" &&
+                d.hrst_2015 != ":" && d.AverageWage_2015 != ":" &&
+                d.hrst_2016 != ":" && d.AverageWage_2016 != ":" &&
+                d.hrst_2017 != ":" && d.AverageWage_2017 != ":" &&
+                d.hrst_2018 != ":" && d.AverageWage_2018 != ":" &&
+                d.hrst_2019 != ":" && d.AverageWage_2019 != ":" &&d.hrst_2020 != ":" && d.AverageWage_2020 != ":";
+        }), function(d){ return d.hrst_2015}),
+                            d3.min(data.filter(function(d){
+            return d.hrst_2010 != ":" && d.AverageWage_2010 != ":" &&
+                d.hrst_2011 != ":" && d.AverageWage_2011 != ":" &&
+                d.hrst_2012 != ":" && d.AverageWage_2012 != ":" &&
+                d.hrst_2013 != ":" && d.AverageWage_2013 != ":" &&
+                d.hrst_2014 != ":" && d.AverageWage_2014 != ":" &&
+                d.hrst_2015 != ":" && d.AverageWage_2015 != ":" &&
+                d.hrst_2016 != ":" && d.AverageWage_2016 != ":" &&
+                d.hrst_2017 != ":" && d.AverageWage_2017 != ":" &&
+                d.hrst_2018 != ":" && d.AverageWage_2018 != ":" &&
+                d.hrst_2019 != ":" && d.AverageWage_2019 != ":" &&d.hrst_2020 != ":" && d.AverageWage_2020 != ":";
+        }), function(d){ return d.AverageWage_2015})
+        );
+        console.log("ptA: "+"("+lg.ptA.x+","+lg.ptA.y+")");
+        console.log("ptB: "+"("+lg.ptB.x+","+lg.ptB.y+")");
+        svg.append("line")
+            .attr("class", "regression")
+            .attr("x1", x(lg.ptA.x))
+            .attr("y1", y(lg.ptA.y))
+            .attr("x2", x(lg.ptB.x))
+            .attr("y2", y(lg.ptB.y));
+
+
+        /* Line drawing to get the retention */
+        /*
+        svg.append("path")
+            .datum(data.filter(function(d){ return d.hrst_2010 != ":" && d.AverageWage_2010 != ":" &&
+                d.hrst_2011 != ":" && d.AverageWage_2011 != ":" &&
+                d.hrst_2012 != ":" && d.AverageWage_2012 != ":" &&
+                d.hrst_2013 != ":" && d.AverageWage_2013 != ":" &&
+                d.hrst_2014 != ":" && d.AverageWage_2014 != ":" &&
+                d.hrst_2015 != ":" && d.AverageWage_2015 != ":" &&
+                d.hrst_2016 != ":" && d.AverageWage_2016 != ":" &&
+                d.hrst_2017 != ":" && d.AverageWage_2017 != ":" &&
+                d.hrst_2018 != ":" && d.AverageWage_2018 != ":" &&
+                d.hrst_2019 != ":" && d.AverageWage_2019 != ":" &&d.hrst_2020 != ":" && d.AverageWage_2020 != ":";
+            }))
+            .attr("fill", "none")
+            .attr("stroke", "black")
+            .attr("stroke-width", 1.5)
+            .attr("d", d3.line()
+                .curve(d3.curveBasis) // Just add that to have a curve instead of segments
+                .x(function(d) {
+                    switch(+year){
+                        case 2010:
+                            return x(d.hrst_2010);
+                        case 2011:
+                            return x(d.hrst_2011);
+                        case 2012:
+                            return x(d.hrst_2012);
+                        case 2013:
+                            return x(d.hrst_2013);
+                        case 2014:
+                            return x(d.hrst_2014);
+                        case 2015:
+                            return x(d.hrst_2015);
+                        case 2016:
+                            return x(d.hrst_2016);
+                        case 2017:
+                            return x(d.hrst_2017);
+                        case 2018:
+                            return x(d.hrst_2018);
+                        case 2019:
+                            return x(d.hrst_2019);
+                        case 2020:
+                            return x(d.hrst_2020);
+                        default:
+                            return x(d.hrst_2015);
+                    }
+                })
+                .y(function(d) {
+                    switch(+year){
+                    case 2010:
+                        return y(d.AverageWage_2010);
+                    case 2011:
+                        return y(d.AverageWage_2011);
+                    case 2012:
+                        return y(d.AverageWage_2012);
+                    case 2013:
+                        return y(d.AverageWage_2013);
+                    case 2014:
+                        return y(d.AverageWage_2014);
+                    case 2015:
+                        return y(d.AverageWage_2015);
+                    case 2016:
+                        return y(d.AverageWage_2016);
+                    case 2017:
+                        return y(d.AverageWage_2017);
+                    case 2018:
+                        return y(d.AverageWage_2018);
+                    case 2019:
+                        return y(d.AverageWage_2019);
+                    case 2020:
+                        return y(d.AverageWage_2020);
+                    default:
+                        return y(d.AverageWage_2015);
+                }})
+            )*/
+
+
         // Add the scatterplot
         var tooltip = d3.select("body").append("div").attr("class", "tooltip")
             .style("opacity", 0);
-        /*var div =
-            d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);*/
 
         svg.selectAll("dot")
             .data(data)
@@ -246,6 +377,86 @@
         }
     }
 
+    /*From this line it's to calculate Linear Regression*/
+    // (1) Your data
+    // (2) The column of data plotted on your x-axis
+    // (3) The column of data plotted on your y-axis
+    // (4) The minimum value of your x-axis
+    // (5) The minimum value of your y-axis
+    function calcLinear(data, x, y, minX, minY){
+        /////////
+        //SLOPE//
+        /////////
+
+        // Let n = the number of data points
+        var n = data.length;
+
+        // Get just the points
+        var pts = [];
+        data.forEach(function(d,i){
+            var obj = {};
+            obj.x = +d[x];
+            obj.y = +d[y];
+            obj.mult = obj.x*obj.y;
+            pts.push(obj);
+        });
+
+        // Let a equal n times the summation of all x-values multiplied by their corresponding y-values
+        // Let b equal the sum of all x-values times the sum of all y-values
+        // Let c equal n times the sum of all squared x-values
+        // Let d equal the squared sum of all x-values
+        var sum = 0;
+        var xSum = 0;
+        var ySum = 0;
+        var sumSq = 0;
+        pts.forEach(function(pt){
+            sum = sum + pt.mult;
+            xSum = xSum + pt.x;
+            ySum = ySum + pt.y;
+            sumSq = sumSq + (pt.x * pt.x);
+        });
+        var a = sum * n;
+        var b = xSum * ySum;
+        var c = sumSq * n;
+        var d = xSum * xSum;
+
+        // Plug the values that you calculated for a, b, c, and d into the following equation to calculate the slope
+        // slope = m = (a - b) / (c - d)
+        var m = (a - b) / (c - d);
+
+        /////////////
+        //INTERCEPT//
+        /////////////
+
+        // Let e equal the sum of all y-values
+        var e = ySum;
+
+        // Let f equal the slope times the sum of all x-values
+        var f = m * xSum;
+
+        // Plug the values you have calculated for e and f into the following equation for the y-intercept
+        // y-intercept = b = (e - f) / n
+        var b = (e - f) / n;
+
+        console.log("equation:"+"y = " + m + "x + " + b);
+        console.log("equation:"+"x = ( y - " + b + " ) / " + m);
+        console.log("########### POINT B ###########");
+        console.log("x : (minY - b) / m");
+        console.log("X:\n->minY: "+minY+"\n->b: "+b+"\n->m: "+m);
+        console.log("Y : "+minY);
+        console.log("x: "+ySum);
+        // Return an object of 2 points: 1)The starting and the 2)ending of the line
+        return {
+            ptA : {
+                x: minX,
+                y: m * minX + b
+            },
+            ptB : {
+                y: minY,
+                x: (minY - b) / m
+            }
+        }
+    }
     // set the dimensions and margins of the graph
     /*var margin = {top: 10, right: 30, bottom: 30, left: 60},
         width = 460 - margin.left - margin.right,
