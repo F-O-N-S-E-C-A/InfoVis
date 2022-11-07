@@ -17,6 +17,8 @@
 </html>
 
 <script>
+    var hub_scale = 2;
+
     var year = sessionStorage.getItem("year");
 
     // set the dimensions and margins of the graph
@@ -79,29 +81,29 @@
             .attr("r", function(d) {
                 switch(+year){
                     case 2010:
-                        return x(d.hub_2010);
+                        return x(d.hub_2010 * hub_scale);
                     case 2011:
-                        return x(d.hub_2011);
+                        return x(d.hub_2011 * hub_scale);
                     case 2012:
-                        return x(d.hub_2012);
+                        return x(d.hub_2012 * hub_scale);
                     case 2013:
-                        return x(d.hub_2013);
+                        return x(d.hub_2013 * hub_scale);
                     case 2014:
-                        return x(d.hub_2014);
+                        return x(d.hub_2014 * hub_scale);
                     case 2015:
-                        return x(d.hub_2015);
+                        return x(d.hub_2015 * hub_scale);
                     case 2016:
-                        return x(d.hub_2016);
+                        return x(d.hub_2016 * hub_scale);
                     case 2017:
-                        return x(d.hub_2017);
+                        return x(d.hub_2017 * hub_scale);
                     case 2018:
-                        return x(d.hub_2018);
+                        return x(d.hub_2018 * hub_scale);
                     case 2019:
-                        return x(d.hub_2019);
+                        return x(d.hub_2019 * hub_scale);
                     case 2020:
-                        return x(d.hub_2020);
+                        return x(d.hub_2020 * hub_scale);
                     default:
-                        return x(d.hub_2015);
+                        return x(d.hub_2015 * hub_scale);
                 }
             })
             .attr("cx", function(d) {
@@ -166,7 +168,7 @@
             .on('mouseover', (event, d) => {
                 d3.select(tooltip).transition()
                     .duration('100')
-                    .attr("r", 7);
+                    .attr("r", 10);
                 tooltip.transition()
                     .duration(100)
                     .style("opacity", 1);
@@ -178,7 +180,34 @@
             .on('mouseout', function (d, i) {
                 d3.select(this).transition()
                     .duration('200')
-                    .attr("r", 5);
+                    .attr("r", function(d) {
+                        switch(+year){
+                            case 2010:
+                                return x(d.hub_2010 * hub_scale);
+                            case 2011:
+                                return x(d.hub_2011 * hub_scale);
+                            case 2012:
+                                return x(d.hub_2012 * hub_scale);
+                            case 2013:
+                                return x(d.hub_2013 * hub_scale);
+                            case 2014:
+                                return x(d.hub_2014 * hub_scale);
+                            case 2015:
+                                return x(d.hub_2015 * hub_scale);
+                            case 2016:
+                                return x(d.hub_2016 * hub_scale);
+                            case 2017:
+                                return x(d.hub_2017 * hub_scale);
+                            case 2018:
+                                return x(d.hub_2018 * hub_scale);
+                            case 2019:
+                                return x(d.hub_2019 * hub_scale);
+                            case 2020:
+                                return x(d.hub_2020 * hub_scale);
+                            default:
+                                return x(d.hub_2015 * hub_scale);
+                        }
+            });
                 tooltip.transition()
                     .duration('200')
                     .style("opacity", 0);
