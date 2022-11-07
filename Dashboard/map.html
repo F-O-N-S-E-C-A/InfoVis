@@ -85,7 +85,7 @@ function check_flag(flag_name){
 
 function set_selected_country(countryID){
   sessionStorage.setItem("selectedCountry", countryID);
-  var ridgeline = window.parent.document.getElementById("ridgeline");
+  var ridgeline = window.parent.document.getElementById("scatterPlot");
   ridgeline.src = ridgeline.src;
 }
 
