@@ -20,9 +20,9 @@
     var year = sessionStorage.getItem("year");
 
     // set the dimensions and margins of the graph
-    margin = {top: 0, right: 0, bottom: 0, left: 0},
+    margin = {top: 5, right: 50, bottom: 25, left: 50},
         width = 800 - margin.left - margin.right,
-        height = 300 - margin.top - margin.bottom;
+        height = 400 - margin.top - margin.bottom;
 
     //Set ranges
     var x = d3.scaleLinear().range([0, width]);
@@ -76,7 +76,34 @@
                 d.hrst_2018 != ":" && d.AverageWage_2018 != ":" &&
                 d.hrst_2019 != ":" && d.AverageWage_2019 != ":" &&d.hrst_2020 != ":" && d.AverageWage_2020 != ":";
             })
-            .attr("r", 5)
+            .attr("r", function(d) {
+                switch(+year){
+                    case 2010:
+                        return x(d.hub_2010);
+                    case 2011:
+                        return x(d.hub_2011);
+                    case 2012:
+                        return x(d.hub_2012);
+                    case 2013:
+                        return x(d.hub_2013);
+                    case 2014:
+                        return x(d.hub_2014);
+                    case 2015:
+                        return x(d.hub_2015);
+                    case 2016:
+                        return x(d.hub_2016);
+                    case 2017:
+                        return x(d.hub_2017);
+                    case 2018:
+                        return x(d.hub_2018);
+                    case 2019:
+                        return x(d.hub_2019);
+                    case 2020:
+                        return x(d.hub_2020);
+                    default:
+                        return x(d.hub_2015);
+                }
+            })
             .attr("cx", function(d) {
                 switch(+year){
                     case 2010:
