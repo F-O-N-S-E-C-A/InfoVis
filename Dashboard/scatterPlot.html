@@ -166,6 +166,8 @@
             .attr("stroke-width", 1.5)
             .attr("fill", "#FFFFFF")
             .on('mouseover', (event, d) => {
+                event.target.setAttribute("stroke","#3498DB");
+                event.target.setAttribute("fill","#3498DB");
                 d3.select(tooltip).transition()
                     .duration('100');
                 tooltip.transition()
