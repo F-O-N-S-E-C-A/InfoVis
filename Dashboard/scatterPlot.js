@@ -29,69 +29,23 @@ var svg = d3.select("#my_dataviz")
 d3.csv("../data/csvCleaned.csv").then(function(data) {
 
     // Scale the range of the data
-    x.domain([0,100]);
+    x.domain([0,0]);
     y.domain([0,160000]);
     // Add the X Axis
     svg.append("g")
+        .attr("class", "myXaxis")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x))
+        .attr("opacity", "0");
     // Add the Y Axis
     svg.append("g")
         .call(d3.axisLeft(y).ticks(15).tickFormat(d3.format("~s")));
 
-    var lg = calcLinear(data.filter(function(d){
-        return d.hrst_2010 != ":" && d.AverageWage_2010 != ":" &&
-            d.hrst_2011 != ":" && d.AverageWage_2011 != ":" &&
-            d.hrst_2012 != ":" && d.AverageWage_2012 != ":" &&
-            d.hrst_2013 != ":" && d.AverageWage_2013 != ":" &&
-            d.hrst_2014 != ":" && d.AverageWage_2014 != ":" &&
-            d.hrst_2015 != ":" && d.AverageWage_2015 != ":" &&
-            d.hrst_2016 != ":" && d.AverageWage_2016 != ":" &&
-            d.hrst_2017 != ":" && d.AverageWage_2017 != ":" &&
-            d.hrst_2018 != ":" && d.AverageWage_2018 != ":" &&
-            d.hrst_2019 != ":" && d.AverageWage_2019 != ":" &&d.hrst_2020 != ":" && d.AverageWage_2020 != ":";
-    }),
-                        "hrst_"+year,
-                        "AverageWage_"+year,
-                        /*We first filter the dataset to don't include ":",
-                         then we pass the column that we want to do the correlation*/
-                        d3.min(data.filter(function(d){
-        return d.hrst_2010 != ":" && d.AverageWage_2010 != ":" &&
-            d.hrst_2011 != ":" && d.AverageWage_2011 != ":" &&
-            d.hrst_2012 != ":" && d.AverageWage_2012 != ":" &&
-            d.hrst_2013 != ":" && d.AverageWage_2013 != ":" &&
-            d.hrst_2014 != ":" && d.AverageWage_2014 != ":" &&
-            d.hrst_2015 != ":" && d.AverageWage_2015 != ":" &&
-            d.hrst_2016 != ":" && d.AverageWage_2016 != ":" &&
-            d.hrst_2017 != ":" && d.AverageWage_2017 != ":" &&
-            d.hrst_2018 != ":" && d.AverageWage_2018 != ":" &&
-            d.hrst_2019 != ":" && d.AverageWage_2019 != ":" &&d.hrst_2020 != ":" && d.AverageWage_2020 != ":";
-    }), function(d){ return d.hrst_2015}),
-                        d3.min(data.filter(function(d){
-        return d.hrst_2010 != ":" && d.AverageWage_2010 != ":" &&
-            d.hrst_2011 != ":" && d.AverageWage_2011 != ":" &&
-            d.hrst_2012 != ":" && d.AverageWage_2012 != ":" &&
-            d.hrst_2013 != ":" && d.AverageWage_2013 != ":" &&
-            d.hrst_2014 != ":" && d.AverageWage_2014 != ":" &&
-            d.hrst_2015 != ":" && d.AverageWage_2015 != ":" &&
-            d.hrst_2016 != ":" && d.AverageWage_2016 != ":" &&
-            d.hrst_2017 != ":" && d.AverageWage_2017 != ":" &&
-            d.hrst_2018 != ":" && d.AverageWage_2018 != ":" &&
-            d.hrst_2019 != ":" && d.AverageWage_2019 != ":" &&d.hrst_2020 != ":" && d.AverageWage_2020 != ":";
-    }), function(d){ return d.AverageWage_2015})
-    );
-    //console.log("ptA: "+"("+lg.ptA.x+","+lg.ptA.y+")");
-    //console.log("ptB: "+"("+lg.ptB.x+","+lg.ptB.y+")");
-    svg.append("line")
-        .attr("class", "regression")
-        .attr("x1", x(lg.ptA.x))
-        .attr("y1", y(lg.ptA.y))
-        .attr("x2", x(lg.ptB.x))
-        .attr("y2", y(lg.ptB.y));
-
     // Add the scatterplot
-    var tooltip = d3.select("body").append("div").attr("class", "tooltip")
-        .style("opacity", 0);
+    var tooltip = d3.select("body")
+                    .append("div")
+                    .attr("class", "tooltip")
+                    .style("opacity", 0);
 
     svg.selectAll("dot")
         .data(data)
@@ -251,6 +205,165 @@ d3.csv("../data/csvCleaned.csv").then(function(data) {
                 .duration('200')
                 .style("opacity", 0);
         });
+
+    x.domain([0,100]);
+    svg.select(".myXaxis")
+        .transition()
+        .duration(1000)
+        .attr("opacity", "1")
+        .call(d3.axisBottom(x));
+
+    svg.selectAll("circle")
+        .filter(function(d) {
+            //console.log(year);
+            return d.hrst_2010 != ":" && d.AverageWage_2010 != ":" &&
+                d.hrst_2011 != ":" && d.AverageWage_2011 != ":" &&
+                d.hrst_2012 != ":" && d.AverageWage_2012 != ":" &&
+                d.hrst_2013 != ":" && d.AverageWage_2013 != ":" &&
+                d.hrst_2014 != ":" && d.AverageWage_2014 != ":" &&
+                d.hrst_2015 != ":" && d.AverageWage_2015 != ":" &&
+                d.hrst_2016 != ":" && d.AverageWage_2016 != ":" &&
+                d.hrst_2017 != ":" && d.AverageWage_2017 != ":" &&
+                d.hrst_2018 != ":" && d.AverageWage_2018 != ":" &&
+                d.hrst_2019 != ":" && d.AverageWage_2019 != ":" &&d.hrst_2020 != ":" && d.AverageWage_2020 != ":";
+        })
+        .transition()
+        .delay(function(d,i){return(i*3)})
+        .duration(500)
+        .attr("r", function(d) {
+            switch(+year){
+                case 2010:
+                    return x(d.hub_2010 * hub_scale);
+                case 2011:
+                    return x(d.hub_2011 * hub_scale);
+                case 2012:
+                    return x(d.hub_2012 * hub_scale);
+                case 2013:
+                    return x(d.hub_2013 * hub_scale);
+                case 2014:
+                    return x(d.hub_2014 * hub_scale);
+                case 2015:
+                    return x(d.hub_2015 * hub_scale);
+                case 2016:
+                    return x(d.hub_2016 * hub_scale);
+                case 2017:
+                    return x(d.hub_2017 * hub_scale);
+                case 2018:
+                    return x(d.hub_2018 * hub_scale);
+                case 2019:
+                    return x(d.hub_2019 * hub_scale);
+                case 2020:
+                    return x(d.hub_2020 * hub_scale);
+                default:
+                    return x(d.hub_2015 * hub_scale);
+            }
+        })
+        .attr("cx", function(d) {
+            switch(+year){
+                case 2010:
+                    return x(d.hrst_2010);
+                case 2011:
+                    return x(d.hrst_2011);
+                case 2012:
+                    return x(d.hrst_2012);
+                case 2013:
+                    return x(d.hrst_2013);
+                case 2014:
+                    return x(d.hrst_2014);
+                case 2015:
+                    return x(d.hrst_2015);
+                case 2016:
+                    return x(d.hrst_2016);
+                case 2017:
+                    return x(d.hrst_2017);
+                case 2018:
+                    return x(d.hrst_2018);
+                case 2019:
+                    return x(d.hrst_2019);
+                case 2020:
+                    return x(d.hrst_2020);
+                default:
+                    return x(d.hrst_2015);
+            }
+        })
+        .attr("cy", function(d) {
+            switch(+year){
+                case 2010:
+                    return y(d.AverageWage_2010);
+                case 2011:
+                    return y(d.AverageWage_2011);
+                case 2012:
+                    return y(d.AverageWage_2012);
+                case 2013:
+                    return y(d.AverageWage_2013);
+                case 2014:
+                    return y(d.AverageWage_2014);
+                case 2015:
+                    return y(d.AverageWage_2015);
+                case 2016:
+                    return y(d.AverageWage_2016);
+                case 2017:
+                    return y(d.AverageWage_2017);
+                case 2018:
+                    return y(d.AverageWage_2018);
+                case 2019:
+                    return y(d.AverageWage_2019);
+                case 2020:
+                    return y(d.AverageWage_2020);
+                default:
+                    return y(d.AverageWage_2015);
+            }
+        })
+
+    var lg = calcLinear(data.filter(function(d){
+            return d.hrst_2010 != ":" && d.AverageWage_2010 != ":" &&
+                d.hrst_2011 != ":" && d.AverageWage_2011 != ":" &&
+                d.hrst_2012 != ":" && d.AverageWage_2012 != ":" &&
+                d.hrst_2013 != ":" && d.AverageWage_2013 != ":" &&
+                d.hrst_2014 != ":" && d.AverageWage_2014 != ":" &&
+                d.hrst_2015 != ":" && d.AverageWage_2015 != ":" &&
+                d.hrst_2016 != ":" && d.AverageWage_2016 != ":" &&
+                d.hrst_2017 != ":" && d.AverageWage_2017 != ":" &&
+                d.hrst_2018 != ":" && d.AverageWage_2018 != ":" &&
+                d.hrst_2019 != ":" && d.AverageWage_2019 != ":" &&d.hrst_2020 != ":" && d.AverageWage_2020 != ":";
+        }),
+        "hrst_"+year,
+        "AverageWage_"+year,
+        /*We first filter the dataset to don't include ":",
+         then we pass the column that we want to do the correlation*/
+        d3.min(data.filter(function(d){
+            return d.hrst_2010 != ":" && d.AverageWage_2010 != ":" &&
+                d.hrst_2011 != ":" && d.AverageWage_2011 != ":" &&
+                d.hrst_2012 != ":" && d.AverageWage_2012 != ":" &&
+                d.hrst_2013 != ":" && d.AverageWage_2013 != ":" &&
+                d.hrst_2014 != ":" && d.AverageWage_2014 != ":" &&
+                d.hrst_2015 != ":" && d.AverageWage_2015 != ":" &&
+                d.hrst_2016 != ":" && d.AverageWage_2016 != ":" &&
+                d.hrst_2017 != ":" && d.AverageWage_2017 != ":" &&
+                d.hrst_2018 != ":" && d.AverageWage_2018 != ":" &&
+                d.hrst_2019 != ":" && d.AverageWage_2019 != ":" &&d.hrst_2020 != ":" && d.AverageWage_2020 != ":";
+        }), function(d){ return d.hrst_2015}),
+        d3.min(data.filter(function(d){
+            return d.hrst_2010 != ":" && d.AverageWage_2010 != ":" &&
+                d.hrst_2011 != ":" && d.AverageWage_2011 != ":" &&
+                d.hrst_2012 != ":" && d.AverageWage_2012 != ":" &&
+                d.hrst_2013 != ":" && d.AverageWage_2013 != ":" &&
+                d.hrst_2014 != ":" && d.AverageWage_2014 != ":" &&
+                d.hrst_2015 != ":" && d.AverageWage_2015 != ":" &&
+                d.hrst_2016 != ":" && d.AverageWage_2016 != ":" &&
+                d.hrst_2017 != ":" && d.AverageWage_2017 != ":" &&
+                d.hrst_2018 != ":" && d.AverageWage_2018 != ":" &&
+                d.hrst_2019 != ":" && d.AverageWage_2019 != ":" &&d.hrst_2020 != ":" && d.AverageWage_2020 != ":";
+        }), function(d){ return d.AverageWage_2015})
+    );
+    //console.log("ptA: "+"("+lg.ptA.x+","+lg.ptA.y+")");
+    //console.log("ptB: "+"("+lg.ptB.x+","+lg.ptB.y+")");
+    svg.append("line")
+        .attr("class", "regression")
+        .attr("x1", x(lg.ptA.x))
+        .attr("y1", y(lg.ptA.y))
+        .attr("x2", x(lg.ptB.x))
+        .attr("y2", y(lg.ptB.y));
 })
 
 //console.log(selected_country);
