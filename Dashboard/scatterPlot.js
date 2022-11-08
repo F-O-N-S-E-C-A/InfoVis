@@ -2,7 +2,9 @@ var hub_scale = 2;
 
 var year = sessionStorage.getItem("year");
 
-var country = sessionStorage.getItem("selectedCountry");
+var selected_country = sessionStorage.getItem("selectedCountry");
+
+
 
 // set the dimensions and margins of the graph
 margin = {top: 5, right: 50, bottom: 25, left: 50},
@@ -193,7 +195,12 @@ d3.csv("../data/csvCleaned.csv").then(function(data) {
         })
         .attr("stroke", "#154360")
         .attr("stroke-width", 1.5)
-        .attr("fill", "#FFFFFF")
+        .attr("fill", function(d){
+            if (d.ID === selected_country){
+                return "#1AE7ED";
+            }
+            return "#FFFFFF";
+        })
         .on('mouseover', (event, d) => {
             event.target.setAttribute("stroke","#3498DB");
             event.target.setAttribute("fill","#3498DB");
@@ -246,6 +253,10 @@ d3.csv("../data/csvCleaned.csv").then(function(data) {
         });
 })
 
+//console.log(selected_country);
+
+
+
 function returnHtml(d){
     switch(+year){
         case 2010:
@@ -275,10 +286,6 @@ function returnHtml(d){
     }
 }
 
-
-function update_scatterPlot(){
-    return;
-}
 
 /*From this line it's to calculate Linear Regression*/
 // (1) Your data

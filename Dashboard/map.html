@@ -90,6 +90,8 @@ function check_flag(flag_name){
 
 function set_selected_country(countryID){
   sessionStorage.setItem("selectedCountry", countryID);
+  var sc = window.parent.document.getElementById("scatterPlot");
+  sc.src = sc.src;
 }
 
 function get_selected_country(){
