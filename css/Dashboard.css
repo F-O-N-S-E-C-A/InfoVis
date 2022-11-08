@@ -354,3 +354,9 @@ div.tooltip {
 .content{
   border: 2px solid red;
 }
+
+.box{
+  box-shadow: -10px 5px 30px;
+  box-sizing: border-box;
+  border-radius: 25px;
+}

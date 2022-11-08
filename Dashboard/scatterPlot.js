@@ -7,9 +7,9 @@ var selected_country = sessionStorage.getItem("selectedCountry");
 
 
 // set the dimensions and margins of the graph
-margin = {top: 5, right: 50, bottom: 25, left: 50},
-    width = 800 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+margin = {top: 50, right: 15, bottom: 50, left:50},
+    width = 500 - margin.left - margin.right,
+    height = 350 - margin.top - margin.bottom;
 
 //Set ranges
 var x = d3.scaleLinear().range([0, width]);
