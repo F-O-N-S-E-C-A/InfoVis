@@ -34,8 +34,9 @@ d3.csv("/data/csvCleaned.csv", function(data) {
     var rets = [];
     for(let y = 2010; y <= 2020; y++){
       var ret = "retention_" + y
-      rets.push(data[i][ret]);
+      rets.push((data[i][ret]*100).toString());
     }
+    //console.log("RETS\n", rets);
     country_retentions[data[i]["ID"]] = rets;
   }
 
@@ -45,7 +46,7 @@ d3.csv("/data/csvCleaned.csv", function(data) {
 
   // Add X axis
   var x = d3.scaleLinear()
-    .domain([0, 10])
+    .domain([80, 120])
     .range([ 0, width ]);
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
@@ -53,7 +54,7 @@ d3.csv("/data/csvCleaned.csv", function(data) {
 
   // Create a Y scale for densities
   var y = d3.scaleLinear()
-    .domain([0, 0.4])
+    .domain([0, 0.6])
     .range([ height, 0]);
 
   // Create the Y axis for names
@@ -65,11 +66,12 @@ d3.csv("/data/csvCleaned.csv", function(data) {
     .call(d3.axisLeft(yName));
 
   // Compute kernel density estimation for each column:
-  var kde = kernelDensityEstimator(kernelEpanechnikov(20), x.ticks(3000)) // increase this 40 for more accurate density.
+  var kde = kernelDensityEstimator(kernelEpanechnikov(6), x.ticks(50)) // increase this 40 for more accurate density.
   var allDensity = []
   for (i = 0; i < n; i++) {
       key = categories[i]
       //console.log(key)
+      //console.log(country_retentions[key]);
       density = kde( country_retentions[key] )
       //console.log(density)
       allDensity.push({key: key, density: density})
