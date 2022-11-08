@@ -10,7 +10,8 @@
 
 
 <script>
-var selected_country = sessionStorage.getItem("selectedCountry");
+var selected_country_id = sessionStorage.getItem("selectedCountry");
+var selected_country = "";
 
 // set the dimensions and margins of the graph
 var margin = {top: 50, right: 15, bottom: 50, left:50},
@@ -37,7 +38,10 @@ d3.csv("/data/csvCleaned.csv", function(data) {
       rets.push((data[i][ret]*100).toString());
     }
     //console.log("RETS\n", rets);
-    country_retentions[data[i]["ID"]] = rets;
+    country_retentions[data[i]["GEO"]] = rets;
+    if (data[i]["ID"] === selected_country_id){
+      selected_country = data[i]["GEO"];
+    }
   }
 
   // Get the different categories and count them
