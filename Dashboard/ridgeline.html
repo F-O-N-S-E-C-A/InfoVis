@@ -10,11 +10,12 @@
 
 
 <script>
+var selected_country = sessionStorage.getItem("selectedCountry");
 
 // set the dimensions and margins of the graph
 var margin = {top: 60, right: 30, bottom: 20, left:110},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    width = 800 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 var svg = d3.select("#my_dataviz")
@@ -24,7 +25,6 @@ var svg = d3.select("#my_dataviz")
   .append("g")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
-
 
 
 var country_retentions = {};
@@ -83,8 +83,13 @@ d3.csv("/data/csvCleaned.csv", function(data) {
     .enter()
     .append("path")
       .attr("transform", function(d){return("translate(0," + (yName(d.key)-height) +")" )})
+      .attr("fill", function(d){
+        if(d.key === selected_country){
+          return "#1AE7ED";
+        }
+        return "#1772DE";
+      })
       .datum(function(d){return(d.density)})
-      .attr("fill", "#69b3a2")
       .attr("stroke", "#000")
       .attr("stroke-width", 1)
       .attr("d",  d3.line()
