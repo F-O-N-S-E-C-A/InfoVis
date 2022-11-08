@@ -210,8 +210,8 @@ d3.csv("../data/csvCleaned.csv").then(function(data) {
                 .duration(100)
                 .style("opacity", 1);
             tooltip.html(returnHtml(d))
-                .style("left", (event.pageX + 30) + "px")
-                .style("top", (event.pageY - 35) + "px")
+                .style("left", (event.pageX - 100) + "px")
+                .style("top", (event.pageY - 50) + "px")
         })
         .on('mouseout', function (d, i) {
             d3.select(this)
