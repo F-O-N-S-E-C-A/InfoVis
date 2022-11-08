@@ -3,12 +3,13 @@
 <meta charset="utf-8">
 <!-- Load d3.js -->
 <script src="../lib/d3/dist/d3.js"></script>
+
+
 <script src="../lib/custom-queue.min.js"></script>
 <script src="../lib/d3-geo-projection.min.js"></script>
 <!-- Create an element where the map will take place -->
 <svg id="my_dataviz" width="800" height="600" ></svg>
 <script>
-
 
 var SHOW_COLORS = check_flag("mapColors"); // checkbox
 var SHOW_HUBS = check_flag("hubs"); // checkbox
@@ -89,12 +90,44 @@ function check_flag(flag_name){
 
 function set_selected_country(countryID){
   sessionStorage.setItem("selectedCountry", countryID);
-  var ridgeline = window.parent.document.getElementById("scatterPlot");
-  ridgeline.src = ridgeline.src;
 }
 
+function get_selected_country(){
+  return sessionStorage.getItem("selectedCountry");
+}
+
+
 function ready(error, topo) {
-  let mouseOverCountry = function(d) {
+
+  let mouseClickCountry = function(d) {
+
+    if(get_selected_country() === d.id){
+      set_selected_country("none");
+      d3.selectAll(".Country")
+        .filter(function(d) {
+          return data[d.id];
+        })
+        .transition()
+        .duration(ANIMATION_SPEED)
+        .style("opacity", .8)
+
+      d3.select(this)
+        .filter(function(d) {
+          return data[d.id];
+        })
+        .transition()
+        .duration(ANIMATION_SPEED)
+        .style("stroke", "grey")
+        .attr("stroke-width", 1)
+
+      svg.selectAll("rect")
+        .style("stroke", "grey")
+        .attr("stroke-width", 1)
+
+      return;
+    }
+    set_selected_country(d.id);
+    //console.log(get_selected_country());
     d3.selectAll(".Country")
       .filter(function(d) {
         return data[d.id];
@@ -102,6 +135,13 @@ function ready(error, topo) {
       .transition()
       .duration(ANIMATION_SPEED)
       .style("opacity", .5)
+      .style("stroke", "grey")
+      .attr("stroke-width", 1)
+
+    svg.selectAll("rect")
+      .style("stroke", "grey")
+      .attr("stroke-width", 1)
+
     d3.select(this)
       .filter(function(d) {
         return data[d.id];
@@ -109,28 +149,37 @@ function ready(error, topo) {
       .transition()
       .duration(ANIMATION_SPEED)
       .style("opacity", 1)
-      .style("stroke", "gray")
+      .style("stroke", "#1AE7ED")
+      .attr("stroke-width", 3)
     set_selected_country(d.id);
   }
 
-  let mouseLeaveCountry = function(d) {
-    d3.selectAll(".Country")
-      .filter(function(d) {
-        return data[d.id];
-      })
-      .transition()
-      .duration(ANIMATION_SPEED)
-      .style("opacity", .8)
-    d3.select(this)
-      .filter(function(d) {
-        return data[d.id];
-      })
-      .transition()
-      .duration(ANIMATION_SPEED)
-      .style("stroke", "gray")
-  }
+  let mouseClickHub = function(d) {
 
-  let mouseOverHub = function(d) {
+    if(get_selected_country() === d.id){
+      set_selected_country("none");
+      d3.selectAll(".Country")
+        .filter(function(d) {
+          return data[d.id];
+        })
+        .transition()
+        .duration(ANIMATION_SPEED)
+        .style("opacity", .8)
+        .style("stroke", "grey")
+        .attr("stroke-width", 1)
+
+      d3.select(this)
+        .filter(function(d) {
+          return data[d.id];
+        })
+        .transition()
+        .duration(ANIMATION_SPEED)
+        .style("stroke", "#1772DE")
+        .style("opacity", .4)
+        .attr("stroke-width", 1)
+      return;
+    }
+    set_selected_country(d.id);
     d3.selectAll(".Country")
       .filter(function(d) {
         return data[d.id];
@@ -138,34 +187,37 @@ function ready(error, topo) {
       .transition()
       .duration(ANIMATION_SPEED)
       .style("opacity", .5)
+      .style("stroke", "grey")
+      .attr("stroke-width", 1)
+
+    d3.selectAll(".Country")
+      .filter(function(c) {
+        return d.id == c.id;
+      })
+      .transition()
+      .duration(ANIMATION_SPEED)
+      .attr("stroke-width", 3)
+      .style("opacity", .6)
+      .style("stroke", "#1AE7ED")
+
+    svg.selectAll("rect")
+      .style("stroke", "grey")
+      .attr("stroke-width", 1)
+
+
     d3.select(this)
       .filter(function(d) {
         return data[d.id];
       })
       .transition()
       .duration(ANIMATION_SPEED)
-      .style("stroke", "green")
+      .style("stroke", "#1AE7ED")
+      .attr("stroke-width", 3)
       .style("opacity", .6)
+
     set_selected_country(d.id);
   }
 
-  let mouseLeaveHub = function(d) {
-    d3.selectAll(".Country")
-      .filter(function(d) {
-        return data[d.id];
-      })
-      .transition()
-      .duration(ANIMATION_SPEED)
-      .style("opacity", .8)
-    d3.select(this)
-      .filter(function(d) {
-        return data[d.id];
-      })
-      .transition()
-      .duration(ANIMATION_SPEED)
-      .style("stroke", "red")
-      .style("opacity", .4)
-  }
 
   // Draw the map
   svg.append("g")
@@ -193,12 +245,11 @@ function ready(error, topo) {
         }
 
       })
-
       .style("stroke", "gray")
       .attr("class", function(d){ return "Country" })
       .style("opacity", .8)
-      .on("mouseover", mouseOverCountry )
-      .on("mouseleave", mouseLeaveCountry )
+      .on("click", mouseClickCountry )
+      //.on("mouseleave", mouseLeaveCountry )
 
       // paint the coutries that are not in the dataset in grey
       d3.selectAll(".Country")
@@ -269,11 +320,10 @@ function ready(error, topo) {
                 }
               }
             })
-            .attr('stroke', 'red')
+            .attr('stroke', '#1772DE')
             .attr('fill', 'white')
             .style("opacity", .4)
-            .on("mouseover", mouseOverHub )
-            .on("mouseleave", mouseLeaveHub )
+            .on("click", mouseClickHub )
       }
 
 
