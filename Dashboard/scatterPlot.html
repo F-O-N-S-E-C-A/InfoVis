@@ -71,8 +71,8 @@
                 d.hrst_2018 != ":" && d.AverageWage_2018 != ":" &&
                 d.hrst_2019 != ":" && d.AverageWage_2019 != ":" &&d.hrst_2020 != ":" && d.AverageWage_2020 != ":";
         }),
-                            "hrst_2015",
-                            "AverageWage_2015",
+                            "hrst_"+year,
+                            "AverageWage_"+year,
                             /*We first filter the dataset to don't include ":",
                              then we pass the column that we want to do the correlation*/
                             d3.min(data.filter(function(d){
