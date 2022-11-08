@@ -30,14 +30,14 @@ d3.csv("../data/csvCleaned.csv").then(function(data) {
 
     // Scale the range of the data
     x.domain([0,100]);
-    y.domain([0,160000])
+    y.domain([0,160000]);
     // Add the X Axis
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
     // Add the Y Axis
     svg.append("g")
-        .call(d3.axisLeft(y).ticks(15));
+        .call(d3.axisLeft(y).ticks(15).tickFormat(d3.format("~s")));
 
     var lg = calcLinear(data.filter(function(d){
         return d.hrst_2010 != ":" && d.AverageWage_2010 != ":" &&
