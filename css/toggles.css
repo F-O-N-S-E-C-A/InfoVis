@@ -11,6 +11,11 @@ outline:none;
 font-family:Helvetica Neue,helvetica,arial,verdana,sans-serif;
 }
 
+.selected_country_info{
+    font-family:Helvetica Neue,helvetica,arial,verdana,sans-serif;
+    font-size: 10px;
+}
+
 div.left {
     width: 200px;
     float: left;

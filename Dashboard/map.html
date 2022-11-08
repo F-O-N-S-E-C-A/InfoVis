@@ -11,10 +11,14 @@
 <svg id="my_dataviz" width="800" height="600" ></svg>
 <script>
 
+
+
 var SHOW_COLORS = check_flag("mapColors"); // checkbox
 var SHOW_HUBS = check_flag("hubs"); // checkbox
 
 var year = sessionStorage.getItem("year");
+
+//var selected_country = get_selected_country();
 
 var ANIMATION_SPEED = 50;
 var COLOR_SCALE = d3.scaleLinear().domain([25, 70]).range(["white", "blue"]); // range of color
@@ -69,8 +73,7 @@ d3.queue()
     })
   .await(ready);
 
-
-
+window.parent.document.getElementById("selected_country_info").innerHTML = "";
 
 // Defines scale
 function scale_size(value){
@@ -94,6 +97,16 @@ function set_selected_country(countryID){
   var ridge = window.parent.document.getElementById("ridgeline");
   sc.src = sc.src;
   ridge.src = ridge.src;
+
+  selectedCountryInfo(countryID);
+}
+
+function selectedCountryInfo(countryID){
+  if(data[countryID]){
+      window.parent.document.getElementById("selected_country").innerHTML = data[countryID]["GEO"];
+      window.parent.document.getElementById("selected_country_info").innerHTML = "Hub value: " + data[countryID]["hub_" + year]
+      + "<br>Percentage of active IT and R&D population: " + data[countryID]["itPop_" + year];
+  }
 }
 
 function get_selected_country(){
@@ -249,7 +262,18 @@ function ready(error, topo) {
         }
 
       })
-      .style("stroke", "gray")
+      .style("stroke", function(d){
+        if(get_selected_country() === d.id){
+          return "#1AE7ED";
+        }
+        return "grey";
+      })
+      .attr("stroke-width", function(d){
+        if(get_selected_country() === d.id){
+          return 3;
+        }
+        return 1;
+      })
       .attr("class", function(d){ return "Country" })
       .style("opacity", .8)
       .on("click", mouseClickCountry )
