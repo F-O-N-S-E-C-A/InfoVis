@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 
 <!-- Load d3.js -->
-<script src="../lib/custom-queue.min.js"></script>
+<script src="../lib/custom-lib-v1.min.js"></script>
 
 <!-- Create a div where the graph will take place -->
 <div id="my_dataviz"></div>
@@ -88,6 +88,15 @@ d3.csv("/data/csvCleaned.csv", function(data) {
           return "#1AE7ED";
         }
         return "#1772DE";
+      })
+      .attr("opacity", function(d){
+        if (selected_country === "none"){
+          return 0.8;
+        }
+        if(d.key === selected_country){
+          return 1;
+        }
+        return 0.4;
       })
       .datum(function(d){return(d.density)})
       .attr("stroke", "#000")
