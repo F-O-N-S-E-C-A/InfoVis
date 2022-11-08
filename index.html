@@ -9,7 +9,7 @@
 <body onload="loadPage()">
   <main>
     <hgroup align=center>
-      <h2 >IT in Europe</h2>
+      <h2 >Human Resources in R&I and IT indicators in Europe</h2>
     </hgroup>
 
     <section>
@@ -73,9 +73,13 @@
   }
 
   function loadPage(){
+
     sessionStorage.setItem("year", "2015");
+
+    document.getElementById("checkbox1").checked = true;
     sessionStorage.setItem("mapColors", "true");
-    sessionStorage.setItem("hubs", "falss");
+    document.getElementById("checkbox2").checked = false;
+    sessionStorage.setItem("hubs", "false");
   }
 
   function reload_map(){
