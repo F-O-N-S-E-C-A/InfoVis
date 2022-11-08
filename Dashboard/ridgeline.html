@@ -94,7 +94,7 @@ d3.csv("/data/csvCleaned.csv", function(data) {
         return "#1772DE";
       })
       .attr("opacity", function(d){
-        if (selected_country === "none"){
+        if (selected_country_id === "none"){
           return 0.8;
         }
         if(d.key === selected_country){
