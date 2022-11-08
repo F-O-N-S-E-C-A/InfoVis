@@ -4,9 +4,7 @@
     <title>Title</title>
     <meta charset="utf-8">
     <!-- Load d3.js -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+    <script src="../lib/d3/dist/d3.js"></script>
     <link rel="stylesheet" href="../css/Dashboard.css">
     <!-- Create a div where the graph will take place -->
     <div id="my_dataviz"></div>
@@ -102,8 +100,8 @@
                 d.hrst_2019 != ":" && d.AverageWage_2019 != ":" &&d.hrst_2020 != ":" && d.AverageWage_2020 != ":";
         }), function(d){ return d.AverageWage_2015})
         );
-        console.log("ptA: "+"("+lg.ptA.x+","+lg.ptA.y+")");
-        console.log("ptB: "+"("+lg.ptB.x+","+lg.ptB.y+")");
+        //console.log("ptA: "+"("+lg.ptA.x+","+lg.ptA.y+")");
+        //console.log("ptB: "+"("+lg.ptB.x+","+lg.ptB.y+")");
         svg.append("line")
             .attr("class", "regression")
             .attr("x1", x(lg.ptA.x))
@@ -197,7 +195,7 @@
             .data(data)
             .enter().append("circle")
             .filter(function(d) {
-            console.log(year);
+            //console.log(year);
             return d.hrst_2010 != ":" && d.AverageWage_2010 != ":" &&
                 d.hrst_2011 != ":" && d.AverageWage_2011 != ":" &&
                 d.hrst_2012 != ":" && d.AverageWage_2012 != ":" &&
@@ -438,13 +436,13 @@
         // y-intercept = b = (e - f) / n
         var b = (e - f) / n;
 
-        console.log("equation:"+"y = " + m + "x + " + b);
-        console.log("equation:"+"x = ( y - " + b + " ) / " + m);
-        console.log("########### POINT B ###########");
-        console.log("x : (minY - b) / m");
-        console.log("X:\n->minY: "+minY+"\n->b: "+b+"\n->m: "+m);
-        console.log("Y : "+minY);
-        console.log("x: "+ySum);
+        //console.log("equation:"+"y = " + m + "x + " + b);
+        //console.log("equation:"+"x = ( y - " + b + " ) / " + m);
+        //console.log("########### POINT B ###########");
+        //console.log("x : (minY - b) / m");
+        //console.log("X:\n->minY: "+minY+"\n->b: "+b+"\n->m: "+m);
+        //console.log("Y : "+minY);
+        //console.log("x: "+ySum);
         // Return an object of 2 points: 1)The starting and the 2)ending of the line
         return {
             ptA : {
