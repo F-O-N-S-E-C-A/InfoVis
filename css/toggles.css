@@ -112,35 +112,35 @@ width:36px;
 /* GREEN CHECKBOX */
 #checkbox1 + .checkbox-label{
 /*box-shadow*/
--webkit-box-shadow:inset 0 0 0 0px rgba(26,231,237,1),0 0 0 2px #dddddd;
-   -moz-box-shadow:inset 0 0 0 0px rgba(26,231,237,1),0 0 0 2px #dddddd;
-        box-shadow:inset 0 0 0 0px rgba(26,231,237,1),0 0 0 2px #dddddd;
+-webkit-box-shadow:inset 0 0 0 0px rgba(23, 114, 222,1),0 0 0 2px #dddddd;
+   -moz-box-shadow:inset 0 0 0 0px rgba(23, 114, 222,1),0 0 0 2px #dddddd;
+        box-shadow:inset 0 0 0 0px rgba(23, 114, 222,1),0 0 0 2px #dddddd;
 }
 #checkbox1:checked + .checkbox-label{
 /*box-shadow*/
--webkit-box-shadow:inset 0 0 0 18px rgba(26,231,237,1),0 0 0 2px rgba(26,231,237,1);
-   -moz-box-shadow:inset 0 0 0 18px rgba(26,231,237,1),0 0 0 2px rgba(26,231,237,1);
-        box-shadow:inset 0 0 0 18px rgba(26,231,237,1),0 0 0 2px rgba(26,231,237,1);
+-webkit-box-shadow:inset 0 0 0 18px rgba(23, 114, 222,1),0 0 0 2px rgba(23, 114, 222,1);
+   -moz-box-shadow:inset 0 0 0 18px rgba(23, 114, 222,1),0 0 0 2px rgba(23, 114, 222,1);
+        box-shadow:inset 0 0 0 18px rgba(23, 114, 222,1),0 0 0 2px rgba(23, 114, 222,1);
 }
 #checkbox1:checked + .checkbox-label:after{
-color:rgba(26,231,237,1);
+color:rgba(23, 114, 222,1);
 }
 /* RED CHECKBOX */
 
 #checkbox2 + .checkbox-label{
 /*box-shadow*/
--webkit-box-shadow:inset 0 0 0 0px rgba(26,231,237,1),0 0 0 2px #dddddd;
-   -moz-box-shadow:inset 0 0 0 0px rgba(26,231,237,1),0 0 0 2px #dddddd;
-        box-shadow:inset 0 0 0 0px rgba(26,231,237,1),0 0 0 2px #dddddd;
+-webkit-box-shadow:inset 0 0 0 0px rgba(23, 114, 222,1),0 0 0 2px #dddddd;
+   -moz-box-shadow:inset 0 0 0 0px rgba(23, 114, 222,1),0 0 0 2px #dddddd;
+        box-shadow:inset 0 0 0 0px rgba(23, 114, 222,1),0 0 0 2px #dddddd;
 }
 #checkbox2:checked + .checkbox-label{
 /*box-shadow*/
--webkit-box-shadow:inset 0 0 0 18px rgba(26,231,237,1),0 0 0 2px rgba(26,231,237,1);
-   -moz-box-shadow:inset 0 0 0 18px rgba(26,231,237,1),0 0 0 2px rgba(26,231,237,1);
-        box-shadow:inset 0 0 0 18px rgba(26,231,237,1),0 0 0 2px rgba(26,231,237,1);
+-webkit-box-shadow:inset 0 0 0 18px rgba(23, 114, 222,1),0 0 0 2px rgba(23, 114, 222,1);
+   -moz-box-shadow:inset 0 0 0 18px rgba(23, 114, 222,1),0 0 0 2px rgba(23, 114, 222,1);
+        box-shadow:inset 0 0 0 18px rgba(23, 114, 222,1),0 0 0 2px rgba(23, 114, 222,1);
 }
 #checkbox2:checked + .checkbox-label:after{
-color:rgba(26,231,237,1);
+color:rgba(23, 114, 222,1);
 }
 /* BLUE CHECKBOX */
 
