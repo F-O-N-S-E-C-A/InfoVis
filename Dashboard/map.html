@@ -3,6 +3,7 @@
 <meta charset="utf-8">
 <!-- Load d3.js -->
 <script src="../lib/d3/dist/d3.js"></script>
+<script src="../lib/custom-queue.min.js"></script>
 <script src="../lib/d3-geo-projection.min.js"></script>
 <!-- Create an element where the map will take place -->
 <svg id="my_dataviz" width="800" height="600" ></svg>
@@ -31,16 +32,17 @@ var projection = d3.geoMercator()
   .translate([ width / 2, height / 2 ])
 
 // Data and color scale
-var data = d3.map();
+
 var colorScale = d3.scaleThreshold()
   .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
   .range(d3.schemeBlues[8]);
+var data = {};
 
 // Loads GEO Data
 d3.queue()
   //.defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
   .defer(d3.json, "/data/worldMapCountries.json")
-  .defer(d3.csv, "/data/csvCleaned.csv", function(d) {data.set(d.ID, {"GEO" : d.GEO,
+  .defer(d3.csv, "/data/csvCleaned.csv", function(d) {data[d.ID] = {"GEO" : d.GEO,
     "hub_2010" : +d.hub_2010,
     "hub_2011" : +d.hub_2011,
     "hub_2012" : +d.hub_2012,
@@ -63,8 +65,11 @@ d3.queue()
     "itPop_2018" : +d.hrst_2018,
     "itPop_2019" : +d.hrst_2019,
     "itPop_2020" : +d.hrst_2020}
-    );})
+    })
   .await(ready);
+
+
+
 
 // Defines scale
 function scale_size(value){
@@ -92,14 +97,14 @@ function ready(error, topo) {
   let mouseOverCountry = function(d) {
     d3.selectAll(".Country")
       .filter(function(d) {
-        return data.get(d.id);
+        return data[d.id];
       })
       .transition()
       .duration(ANIMATION_SPEED)
       .style("opacity", .5)
     d3.select(this)
       .filter(function(d) {
-        return data.get(d.id);
+        return data[d.id];
       })
       .transition()
       .duration(ANIMATION_SPEED)
@@ -111,14 +116,14 @@ function ready(error, topo) {
   let mouseLeaveCountry = function(d) {
     d3.selectAll(".Country")
       .filter(function(d) {
-        return data.get(d.id);
+        return data[d.id];
       })
       .transition()
       .duration(ANIMATION_SPEED)
       .style("opacity", .8)
     d3.select(this)
       .filter(function(d) {
-        return data.get(d.id);
+        return data[d.id];
       })
       .transition()
       .duration(ANIMATION_SPEED)
@@ -128,14 +133,14 @@ function ready(error, topo) {
   let mouseOverHub = function(d) {
     d3.selectAll(".Country")
       .filter(function(d) {
-        return data.get(d.id);
+        return data[d.id];
       })
       .transition()
       .duration(ANIMATION_SPEED)
       .style("opacity", .5)
     d3.select(this)
       .filter(function(d) {
-        return data.get(d.id);
+        return data[d.id];
       })
       .transition()
       .duration(ANIMATION_SPEED)
@@ -147,14 +152,14 @@ function ready(error, topo) {
   let mouseLeaveHub = function(d) {
     d3.selectAll(".Country")
       .filter(function(d) {
-        return data.get(d.id);
+        return data[d.id];
       })
       .transition()
       .duration(ANIMATION_SPEED)
       .style("opacity", .8)
     d3.select(this)
       .filter(function(d) {
-        return data.get(d.id);
+        return data[d.id];
       })
       .transition()
       .duration(ANIMATION_SPEED)
@@ -175,7 +180,7 @@ function ready(error, topo) {
       // set the color of each country
       .attr("fill", function (d) {
         if(SHOW_COLORS){
-          var dt = data.get(d.id)
+          var dt = data[d.id]
           if (dt){
             var dataset_comlumn = "itPop_" + year;
             if (isNaN(dt[dataset_comlumn])){
@@ -198,7 +203,7 @@ function ready(error, topo) {
       // paint the coutries that are not in the dataset in grey
       d3.selectAll(".Country")
       .filter(function(d) {
-        return !data.get(d.id); //check if the country is in the dataset
+        return !data[d.id]; //check if the country is in the dataset
       })
       .style("fill", "grey");
 
@@ -225,8 +230,8 @@ function ready(error, topo) {
         .enter()
           .append("rect").attr("d", d3.geoPath().projection(projection))
             .attr("transform", function(d) {
-              if(data.get(d.id)){ // show just the countries in the data base
-                if (!isNaN(data.get(d.id)[hubs_year])){
+              if(data[d.id]){ // show just the countries in the data base
+                if (!isNaN(data[d.id][hubs_year])){
 
                   let coords = d3.geoPath().projection(projection).centroid(d.geometry);
 
@@ -235,32 +240,32 @@ function ready(error, topo) {
               }
             })
             .attr("x", function(d){
-              if(data.get(d.id)){
-                if (!isNaN(data.get(d.id)[hubs_year])){
-                  let side = data.get(d.id)[hubs_year];
+              if(data[d.id]){
+                if (!isNaN(data[d.id][hubs_year])){
+                  let side = data[d.id][hubs_year];
                   return -(scale_size(side)/2);
                 }
               }
             })
             .attr("y", function(d){
-              if(data.get(d.id)){
-                if (!isNaN(data.get(d.id)[hubs_year])){
-                  let side = data.get(d.id)[hubs_year];
+              if(data[d.id]){
+                if (!isNaN(data[d.id][hubs_year])){
+                  let side = data[d.id][hubs_year];
                   return -(scale_size(side)/2);
                 }
               }
             })
             .attr('width', function(d){
-              if(data.get(d.id)){
-                if (!isNaN(data.get(d.id)[hubs_year])){
-                  return scale_size(data.get(d.id)[hubs_year]);
+              if(data[d.id]){
+                if (!isNaN(data[d.id][hubs_year])){
+                  return scale_size(data[d.id][hubs_year]);
                 }
               }
             })
             .attr('height', function(d){
-              if(data.get(d.id)){
-                if (!isNaN(data.get(d.id)[hubs_year])){
-                  return scale_size(data.get(d.id)[hubs_year]);
+              if(data[d.id]){
+                if (!isNaN(data[d.id][hubs_year])){
+                  return scale_size(data[d.id][hubs_year]);
                 }
               }
             })

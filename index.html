@@ -27,7 +27,7 @@
         <iframe scrolling="no" id="ridgeline" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/ridgeline.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
       </div>-->
       <div style="width: 800px; height: 400px">
-        <iframe scrolling="no" id="scatterPlot" style='overflow-y:hidden; width:100%; height:400px;' src="Dashboard/scatterPlot.html" frameborder="0" width="100%" height="400px" type="text/html"> </iframe>
+        <iframe scrolling="no" id="ridgeline" style='overflow-y:hidden; width:100%; height:400px;' src="Dashboard/ridgeline.html" frameborder="0" width="100%" height="400px" type="text/html"> </iframe>
       </div>
     </div>
 
@@ -78,8 +78,8 @@
 
     document.getElementById("checkbox1").checked = true;
     sessionStorage.setItem("mapColors", "true");
-    document.getElementById("checkbox2").checked = false;
-    sessionStorage.setItem("hubs", "false");
+    document.getElementById("checkbox2").checked = true;
+    sessionStorage.setItem("hubs", "true");
   }
 
   function reload_map(){

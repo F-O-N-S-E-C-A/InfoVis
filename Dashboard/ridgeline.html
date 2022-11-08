@@ -45,7 +45,7 @@ d3.csv("/data/csvCleaned.csv", function(data) {
 
   // Add X axis
   var x = d3.scaleLinear()
-    .domain([0, 2020])
+    .domain([0, 10])
     .range([ 0, width ]);
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
@@ -65,7 +65,7 @@ d3.csv("/data/csvCleaned.csv", function(data) {
     .call(d3.axisLeft(yName));
 
   // Compute kernel density estimation for each column:
-  var kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(10)) // increase this 40 for more accurate density.
+  var kde = kernelDensityEstimator(kernelEpanechnikov(20), x.ticks(3000)) // increase this 40 for more accurate density.
   var allDensity = []
   for (i = 0; i < n; i++) {
       key = categories[i]
