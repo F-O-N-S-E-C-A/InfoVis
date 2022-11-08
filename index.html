@@ -3,6 +3,7 @@
   <script src="../lib/d3/dist/d3.js"></script>
   <link rel="stylesheet" href="css/Dashboard.css">
   <link rel="stylesheet" href="css/toggles.css">
+  <link rel="stylesheet" href="css/slideBar.css">
 </head>
 <html>
 
@@ -14,10 +15,10 @@
     </hgroup>
 
     <section>
-      <section>
-      <div class="MAP" style="overflow-y: hidden; width: 800px; height: 600px; ">
+      <section style=" width: 50%; height: 80%; ">
+      <div class="ChoroplethAndHubs View" style="overflow-y: hidden;">
         <div style="width: 800px; height: 600px">
-          <iframe scrolling="no" id="map" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/map.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
+          <iframe scrolling="no" id="map" style='overflow-y:hidden; width:100%; height:600px;' src="Dashboard/map.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
         </div>
       </div>
     </section>
@@ -32,7 +33,7 @@
       </div>
     </div>
 
-    <div class="View 1" style="overflow-y: hidden;  ">
+    <div class="ScatterPlot View" style="overflow-y: hidden;  ">
     <!--<div style="width: 800px; height: 600px">
       <iframe scrolling="no" id="ridgeline" style='overflow-y:hidden; width:100%; height:600px' src="Dashboard/ridgeline.html" frameborder="0" width="100%" height="600px" type="text/html"> </iframe>
     </div>-->
@@ -42,7 +43,7 @@
     </div>
     </div>
 
-      <div class="View 1" style="overflow-y: hidden; width: 270px; height: 800px; ">
+      <div class="Settings View" style="overflow-y: hidden; width: 270px; height: 800px; ">
 
         <div style="display: inline-block; width: 100%; height:7%">
           <div id="" style=" float: left; width: 65%; height:60%;">
@@ -77,11 +78,19 @@
 
     </section>
 
-    <div class="slidecontainer" style="text-align: center;">
-      <input type="range" min="2010" max="2020" value="2015" step="1" class="slider" id="myRange" style="width: 100%; height: auto;" oninput="yearChange(this.value)">
-      <label id="year" align ="center">2015</label>
+    <section>
+      <div style="width: 100%;">
+        <div class="slidebar" style="text-align: center; width:85%;">
+      <input type="range" min="2010" max="2020" value="2015" id="slider">
+      <div id="selector">
+        <div class="selectBtn"></div>
+        <div id="selectValue" style="position:  relative; top: 20px;"></div>
+      </div>
+      <div id="progressBar"></div>
     </div>
-    
+      </div>
+      
+    </section>
 
   </main>
 </body>
@@ -89,10 +98,23 @@
 <footer><small>Copyright 2022 Joao Lopes, Tiago Fonseca and David Huber</small></footer>
 
 <script>
+  let slider = document.getElementById('slider')
+  let selector = document.getElementById('selector')
+  let selectValue = document.getElementById('selectValue')
+  let progressBar = document.getElementById('progressBar')
+
+  selectValue.innerHTML = slider.value
+
+  slider.oninput = function() {
+    selectValue.innerHTML = this.value
+    selector.style.left = parseInt(this.value - 2010)*10 + '%'
+    progressBar.style.width = parseInt(this.value - 2010)*10 + '%'
+    yearChange(this.value)
+  }
 
   
   function yearChange(value){
-    document.getElementById("year").innerHTML = value;
+    document.getElementById("selectValue").innerHTML = value;
     sessionStorage.setItem("year", value);
     reload_map();
     reload_scatterplot();
